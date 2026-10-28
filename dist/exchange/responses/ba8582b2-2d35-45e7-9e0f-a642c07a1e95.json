@@ -1,0 +1,21 @@
+{
+  "protocol": "1.0",
+  "id": "ba8582b2-2d35-45e7-9e0f-a642c07a1e95",
+  "ts": "2026-09-23T10:56:55",
+  "status": "need_confirmation",
+  "result": {
+    "echo": {
+      "doc_type": "РеализацияТоваровУслуг",
+      "counterparty": "ООО Ромашка",
+      "positions": [
+        {
+          "item": "Товар А",
+          "qty": 10,
+          "price": 150
+        }
+      ]
+    }
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

@@ -1,0 +1,30 @@
+{
+  "protocol": "1.0",
+  "id": "91b53079-ca75-407a-bc2a-0eb0fcf70aaa",
+  "ts": "2026-10-23T20:40:53",
+  "status": "ok",
+  "result": {
+    "columns": [
+      "Номенклатура",
+      "Остаток"
+    ],
+    "rows": [
+      [
+        "Товар А",
+        120
+      ],
+      [
+        "Товар Б",
+        45
+      ],
+      [
+        "Услуга монтажа",
+        null
+      ]
+    ],
+    "row_count": 3,
+    "truncated": false
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "cd4de3e6-73c9-4034-bbef-848216e8b5f0",
+  "ts": "2026-09-22T23:13:18",
+  "action": "запрос_1с",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {
+    "query": "SELECT * FROM [Касса_2] WHERE [Склад] = 'Артефакты' AND [Кол-во] > 0;"
+  },
+  "confirmed_by": null
+}

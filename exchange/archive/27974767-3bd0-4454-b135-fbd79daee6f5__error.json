@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "27974767-3bd0-4454-b135-fbd79daee6f5",
+  "ts": "2026-09-22T23:16:07",
+  "action": "запрос_1с",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {
+    "query": "SELECT * FROM [СкладСостояние] WHERE [Дата] = CURRENT_DATE"
+  },
+  "confirmed_by": null
+}

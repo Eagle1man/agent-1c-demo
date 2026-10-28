@@ -1,0 +1,111 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Консольный чат-интерфейс для RAG-ассистента 1С с Ollama"""
+
+import os
+import sys
+import json
+import urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'rag'))
+
+from search import search as rag_search
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_MODEL = "qwen2.5:1.5b"
+
+SUGGESTIONS = [
+    "Как исправить синтаксическую ошибку в 1С?",
+    "Как создать накладную в 1С:Предприятие?",
+    "Остатки товара на складе — как посчитать?",
+    "Как подключиться к базе данных 1С?",
+    "Как очистить кэш 1С?",
+    "Как восстановить убитую конфигурацию?",
+    "Как настроить пользователей и права?",
+    "Как выгрузить данные в Excel из 1С?",
+]
+
+def show_suggestions():
+    print("\n💡 Подсказки по вопросам:")
+    for i, s in enumerate(SUGGESTIONS, 1):
+        print(f"  [{i}] {s}")
+    print()
+
+def ollama_answer(question, context):
+    if context:
+        prompt = f"""Ты — эксперт по 1С:Предприятие. Отвечай на русском языке, основываясь на предоставленном контексте из базы знаний. Если контекста недостаточно, честно скажи об этом. Не придумывай информацию.
+
+КОНТЕКСТ ИЗ БАЗЫ ЗНАНИЙ:
+{context}
+
+ВОПРОС ПОЛЬЗОВАТЕЛЯ: {question}
+
+Ответ (с указанием источника, если информация из контекста):"""
+    else:
+        prompt = f"""Ты — эксперт по 1С:Предприятие. Отвечай на русском языке. Если не знаешь ответа, честно скажи об этом. Не придумывай информацию.
+
+ВОПРОС ПОЛЬЗОВАТЕЛЯ: {question}
+
+Ответ:"""
+
+    payload = {"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(OLLAMA_URL, data=data, headers={"Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            result = json.loads(resp.read().decode("utf-8"))
+            return result.get("response", "Нет ответа от модели")
+    except Exception as e:
+        return f"Ошибка Ollama: {e}"
+
+def build_context(hits):
+    if not hits:
+        return ""
+    parts = []
+    for i, h in enumerate(hits, 1):
+        src = h.get("metadata", {}).get("source", "неизвестный источник")
+        score = h.get("score", 0)
+        text = h.get("text", "")
+        parts.append(f"[Источник {i}] (релевантность: {score:.2f}) {src}\n{text}")
+    return "\n\n".join(parts)
+
+def main():
+    print("=" * 60)
+    print("🤖 RAG-ассистент 1С — Консольный чат (Ollama + RAG)")
+    print("=" * 60)
+    print("Введите 'quit' или 'exit' для выхода")
+    print("Введите 'help' для подсказок")
+    print("-" * 60)
+    show_suggestions()
+    history = []
+    while True:
+        try:
+            question = input("\n👤 Вы: ").strip()
+            if question.lower() in ('quit', 'exit'):
+                print("👋 До свидания!")
+                break
+            elif question.lower() == 'help':
+                show_suggestions()
+                continue
+            elif not question:
+                continue
+            if question.isdigit():
+                idx = int(question)
+                if 1 <= idx <= len(SUGGESTIONS):
+                    question = SUGGESTIONS[idx - 1]
+            print("⏳ Поиск в базе знаний 1С...")
+            hits = rag_search(question, top_k=3)
+            context = build_context(hits)
+            print("⏳ Получение ответа от Ollama...")
+            answer = ollama_answer(question, context)
+            print(f"\n🤖 Ассистент:\n{answer}")
+            history.append({"question": question, "answer": answer, "sources": hits})
+        except KeyboardInterrupt:
+            print("\n\n👋 До свидания!")
+            break
+        except Exception as e:
+            print(f"\n⚠ Ошибка: {e}")
+
+if __name__ == "__main__":
+    main()

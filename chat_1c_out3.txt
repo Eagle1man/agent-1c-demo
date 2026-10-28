@@ -1,0 +1,28 @@
+win32 подключение: ок
+WINDOW '' class=V8ConfirmationWindowTaxi
+WINDOW '' class=V8ToolTipWindow
+WINDOW '' class=V8CloseAllButton
+WINDOW '' class=V8Window
+WINDOW '' class=V8ValidationMessageWnd
+WINDOW '' class=V8ToolTipWindow
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW '1С:Предприятие (учебная версия)' class=V8TopLevelFrameSDIsec
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW '' class=V8Window
+WINDOW 'ДемоАгент' class=V8TopLevelFrameSDI
+WINDOW '' class=V8EMSGServer
+WINDOW 'M' class=MSCTFIME UI
+WINDOW 'Default IME' class=IME
+после BM_CLICK диалог: True
+попытка клавиатуры 1: диалог False
+окно формы: 'ДемоАгент'
+ПОЛЕ y=140 h=32 val=''
+история найдена: False
+поле для фразы: False
+ИТОГ y=140 h=32 val=''
+скриншот 3 сохранён

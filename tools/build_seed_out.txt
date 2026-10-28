@@ -1,0 +1,160 @@
+name set
+fileedit: focused
+typed=[C:\1c_bases]
+enter sent
+list-has-seed: True
+sel: epf_seed
+fileedit3: focused
+typed-file=[C:\1c_bases\epf_seed\ExternalDataProcessor.xml]
+file-enter sent
+##### after-open
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [Window] Конфигуратор (учебная версия)
+   [Button] OK
+   [Button] Подробно...
+   [Pane] Ошибка загрузки документа.
+Версия формата загружаемого файла "C:/1c_bases/epf_seed/ExternalDataProcessor/Forms/Форма/Ext/Form.xml", отличается от версии формата
+   [Button] Закрыть
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [Button] Внешняя обработка1 seed data *
+   [ToolBar] Панель состояния
+details clicked
+##### after-details
+=== WINDOW: Конфигуратор (учебная версия)
+   [Text] Обнаружены ошибки:
+   [Button] Закрыть
+   [Button] Завершить работу
+   [Button] Развернуть
+   [Button] Закрыть
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [Button] Внешняя обработка1 seed data *
+   [ToolBar] Панель состояния

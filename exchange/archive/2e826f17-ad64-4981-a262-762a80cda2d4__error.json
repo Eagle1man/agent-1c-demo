@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "2e826f17-ad64-4981-a262-762a80cda2d4",
+  "ts": "2026-09-22T22:42:56",
+  "action": "запрос_1с",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {
+    "query": "SELECT * FROM tab"
+  },
+  "confirmed_by": null
+}

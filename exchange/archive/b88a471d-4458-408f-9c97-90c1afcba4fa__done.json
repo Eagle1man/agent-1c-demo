@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "b88a471d-4458-408f-9c97-90c1afcba4fa",
+  "ts": "2026-09-22T23:17:33",
+  "action": "запрос_1с",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {
+    "query": "ВЫБРАТЬ * ИЗ `Stock` ГДЕ `is_active` = 1 ORDER BY `stock_number`"
+  },
+  "confirmed_by": null
+}

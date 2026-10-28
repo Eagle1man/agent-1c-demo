@@ -1,0 +1,13 @@
+{
+  "protocol": "1.0",
+  "id": "84cf5749-e24f-4465-b408-d7ef77ac2257",
+  "ts": "2026-10-23T20:40:54",
+  "status": "ok",
+  "result": {
+    "number": "РН-000123",
+    "date": "2026-10-23",
+    "posted": true
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

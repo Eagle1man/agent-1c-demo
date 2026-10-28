@@ -1,0 +1,10 @@
+{
+  "protocol": "1.0",
+  "id": "71c6d2c6-b4d3-4fd6-b2af-95e76cdf760a",
+  "ts": "2026-10-22T22:40:38",
+  "action": "проверка_связи",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {},
+  "confirmed_by": null
+}

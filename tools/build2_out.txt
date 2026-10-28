@@ -1,0 +1,203 @@
+menu-open: True
+epf created
+name set
+load menu clicked
+typed-file=[C:\1c_bases\epf_seed2\SeedData.xml]
+load file entered
+confirm-no clicked
+##### after-load
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   ... truncated
+win: Конфигуратор (учебная версия) - ДемоАгент
+saveas sent
+##### after-saveas
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuItem] Открыть модуль объекта
+   [MenuItem] Открыть основную форму
+   [MenuItem] Открыть
+   [MenuItem] Сравнить, объединить с внешней обработкой, отчетом...
+   [MenuItem] Выгрузить в файлы...
+   [MenuItem] Загрузить из файлов...
+   [MenuItem] Добавить
+   [MenuItem] Справочная информация
+   [MenuItem] Свойства
+   [Window] Сохранение
+   [ToolBar] Командный модуль
+   [Button] &Справка
+   [SplitButton] Подробности
+   [Button] Ползунок управления просмотром
+   [Button] Упорядочить
+   [Button] Новая папка
+   [Pane] Узел управления
+   [Tree] Область навигации
+   [ScrollBar] По вертикали
+   [Button] Строка вверх
+   [Button] Прокрутить вверх
+   [Thumb] Положение
+   [Button] Прокрутить вниз
+   [Button] Строка вниз
+   [TreeItem] Рабочий стол
+   [TreeItem] Главная
+   [TreeItem] Галерея
+   [TreeItem] OneDrive - Personal
+   [TreeItem] Видео
+   [TreeItem] Документы
+   [TreeItem] Загрузки
+   [TreeItem] Изображения
+   [TreeItem] Музыка
+   [TreeItem] MEmu Music
+   [TreeItem] Рабочий стол
+   [TreeItem] D Diorlov
+   [TreeItem] .anaconda
+   [TreeItem] .aws
+   [TreeItem] .azure
+   [TreeItem] .BigNox
+   [TreeItem] .cache
+   [TreeItem] .cagent
+   [TreeItem] .cline
+   [TreeItem] .config
+   [TreeItem] .continue
+   [TreeItem] .continuum
+   [TreeItem] .copilot
+   [TreeItem] .cursor
+   [TreeItem] .dbus-keyrings
+   [TreeItem] .designer
+   [TreeItem] .docker
+   [TreeItem] .dotnet
+   [TreeItem] .EasyOCR
+   [TreeItem] .ipynb_checkpoints
+   [TreeItem] .ipython
+   [TreeItem] .jupyter
+   [TreeItem] .keras
+   [TreeItem] .kimi-webbridge
+   [TreeItem] .kimi-work
+   [TreeItem] .koda
+   [TreeItem] .lmstudio
+   ... truncated
+save-typed=[C:\1c_bases\SeedData.epf]
+save confirmed
+##### after-savefile
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuItem] Открыть модуль объекта
+   [MenuItem] Открыть основную форму
+   [MenuItem] Открыть
+   [MenuItem] Сравнить, объединить с внешней обработкой, отчетом...
+   [MenuItem] Выгрузить в файлы...
+   [MenuItem] Загрузить из файлов...
+   [MenuItem] Добавить
+   [MenuItem] Справочная информация
+   [MenuItem] Свойства
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   ... truncated

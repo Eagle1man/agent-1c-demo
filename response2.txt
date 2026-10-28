@@ -1,0 +1,1 @@
+{"type": "result", "title": "Ответ агента", "text": "🤖 Сегодня пятница.", "agent": "coordinator"}

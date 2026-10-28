@@ -1,0 +1,192 @@
+# -*- coding: utf-8 -*-
+"""Генерация XML-исходников минимальной конфигурации ДемоАгент.
+Формат сверен с эталоном: DESIGNER /DumpConfigToFiles пустой базы
+(version 2.20, неймспейсы MDClasses/data-core/xcf-*).
+UUID стабильны: НЕ менять между итерациями."""
+from pathlib import Path
+
+ROOT = Path(r"C:\1c_bases\cfg_src")
+DECL = '<?xml version="1.0" encoding="utf-8"?>\n'
+T = "\t"
+NS = ('<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" '
+      'xmlns:app="http://v8.1c.ru/8.2/managed-application/core" '
+      'xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" '
+      'xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" '
+      'xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" '
+      'xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" '
+      'xmlns:style="http://v8.1c.ru/8.1/data/ui/style" '
+      'xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" '
+      'xmlns:v8="http://v8.1c.ru/8.1/data/core" '
+      'xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" '
+      'xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" '
+      'xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" '
+      'xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" '
+      'xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" '
+      'xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" '
+      'xmlns:xs="http://www.w3.org/2001/XMLSchema" '
+      'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">')
+
+P = "3b9b2a01-7c4e-4b1d-9f2a-"
+G = {
+    "catalog_contragents": P + "000000000001",
+    "attr_inn": P + "000000000002",
+    "attr_kpp": P + "000000000003",
+    "catalog_nomen": P + "000000000004",
+    "doc_realiz": P + "000000000005",
+    "doc_contragent": P + "000000000006",
+    "ts_tovary": P + "000000000007",
+    "ts_nomen": P + "000000000008",
+    "ts_qty": P + "000000000009",
+    "ts_price": P + "000000000010",
+}
+
+
+CLASS_BY_CTX = {"catalog_attr": "C4", "ts_attr": "C2", "doc": "C3", "config": "C4", "self": "C5"}
+CLASSES = {"C1": "9cd510cd-abfc-11d4-9434-004095e12fc7", "C2": "9fcd25a0-4822-11d4-9414-008048da11f9", "C3": "e3687481-0a87-462c-a166-9f34594f9bba", "C4": "9de14907-ec23-4a07-96f0-85521cb6b53b", "C5": "51f2d5d8-ea4d-4064-8892-82951750031e"}
+
+
+def ii(ctx, *short_ids):
+    cls = CLASSES[CLASS_BY_CTX[ctx]]
+    items = ""
+    for sh in short_ids:
+        items += ("<xr:ContainedObject><xr:ClassId>" + cls + "</xr:ClassId>"
+                  + "<xr:ObjectId>" + P + sh + "</xr:ObjectId></xr:ContainedObject>")
+    return "<InternalInfo>" + items + "</InternalInfo>"
+
+
+def syn(name):
+    return ("<Synonym><v8:item><v8:lang>ru</v8:lang>"
+            "<v8:content>" + name + "</v8:content></v8:item></Synonym>")
+
+
+def attr_str(uuid, name, length):
+    return (
+        '<Attribute uuid="' + uuid + '">' + "\n"
+        + T + '<Properties>' + "\n"
+        + T + T + '<Name>' + name + '</Name>' + "\n"
+        + T + T + syn(name) + "\n"
+        + T + T + '<Comment/>' + "\n"
+        + T + T + '<Type>' + "\n"
+        + T + T + T + '<v8:Type>String</v8:Type>' + "\n"
+        + T + T + T + '<v8:StringQualifiers>' + "\n"
+        + T + T + T + T + '<v8:Length>' + str(length) + '</v8:Length>' + "\n"
+        + T + T + T + T + '<v8:AllowedLength>Variable</v8:AllowedLength>' + "\n"
+        + T + T + T + '</v8:StringQualifiers>' + "\n"
+        + T + T + '</Type>' + "\n"
+        + T + '</Properties>' + "\n"
+        + '</Attribute>')
+
+
+def attr_ref(uuid, name, ref):
+    return (
+        '<Attribute uuid="' + uuid + '">' + "\n"
+        + T + '<Properties>' + "\n"
+        + T + T + '<Name>' + name + '</Name>' + "\n"
+        + T + T + syn(name) + "\n"
+        + T + T + '<Comment/>' + "\n"
+        + T + T + '<Type>' + "\n"
+        + T + T + T + '<v8:Type>' + ref + '</v8:Type>' + "\n"
+        + T + T + '</Type>' + "\n"
+        + T + '</Properties>' + "\n"
+        + '</Attribute>')
+
+
+def attr_num(uuid, name):
+    return (
+        '<Attribute uuid="' + uuid + '">' + "\n"
+        + T + '<Properties>' + "\n"
+        + T + T + '<Name>' + name + '</Name>' + "\n"
+        + T + T + syn(name) + "\n"
+        + T + T + '<Comment/>' + "\n"
+        + T + T + '<Type>' + "\n"
+        + T + T + T + '<v8:Type>Number</v8:Type>' + "\n"
+        + T + T + '</Type>' + "\n"
+        + T + '</Properties>' + "\n"
+        + '</Attribute>')
+
+
+catalog_k = (
+    DECL + NS + "\n"
+    + T + '<Catalog uuid="' + G["catalog_contragents"] + '">' + "\n"
+    + T + T + ii("catalog_attr", "000000000002", "000000000003") + "\n"
+    + T + T + '<Properties>' + "\n"
+    + T + T + T + '<Name>Контрагенты</Name>' + "\n"
+    + T + T + T + syn('Контрагенты') + "\n"
+    + T + T + T + '<Comment/>' + "\n"
+    + T + T + '</Properties>' + "\n"
+    + T + T + '<ChildObjects>' + "\n"
+    + T + T + T + attr_str(G["attr_inn"], "ИНН", 12).replace("\n", "\n" + T + T) + "\n"
+    + T + T + T + attr_str(G["attr_kpp"], "КПП", 9).replace("\n", "\n" + T + T) + "\n"
+    + T + T + '</ChildObjects>' + "\n"
+    + T + '</Catalog>' + "\n"
+    + '</MetaDataObject>' + "\n")
+
+catalog_n = (
+    DECL + NS + "\n"
+    + T + '<Catalog uuid="' + G["catalog_nomen"] + '">' + "\n"
+    + T + T + ii("self", "000000000004") + "\n"
+    + T + T + '<Properties>' + "\n"
+    + T + T + T + '<Name>Номенклатура</Name>' + "\n"
+    + T + T + T + syn('Номенклатура') + "\n"
+    + T + T + T + '<Comment/>' + "\n"
+    + T + T + '</Properties>' + "\n"
+    + T + T + '<ChildObjects/>' + "\n"
+    + T + '</Catalog>' + "\n"
+    + '</MetaDataObject>' + "\n")
+
+doc_r = (
+    DECL + NS + "\n"
+    + T + '<Document uuid="' + G["doc_realiz"] + '">' + "\n"
+    + T + T + ii("doc", "000000000006", "000000000007") + "\n"
+    + T + T + '<Properties>' + "\n"
+    + T + T + T + '<Name>РеализацияТоваровУслуг</Name>' + "\n"
+    + T + T + T + syn('Реализация товаров и услуг') + "\n"
+    + T + T + T + '<Comment/>' + "\n"
+    + T + T + T + '<NumberLength>11</NumberLength>' + "\n"
+    + T + T + T + '<NumberType>Number</NumberType>' + "\n"
+    + T + T + T + '<Posting>Allow</Posting>' + "\n"
+    + T + T + '</Properties>' + "\n"
+    + T + T + '<ChildObjects>' + "\n"
+    + T + T + T + attr_ref(G["doc_contragent"], "Контрагент", "CatalogRef.Контрагенты").replace("\n", "\n" + T + T) + "\n"
+    + T + T + T + '<TabularSection uuid="' + G["ts_tovary"] + '">' + "\n"
+    + T + T + T + T + ii("ts_attr", "000000000008", "000000000009", "000000000010") + "\n"
+    + T + T + T + T + '<Properties>' + "\n"
+    + T + T + T + T + T + '<Name>Товары</Name>' + "\n"
+    + T + T + T + T + T + syn('Товары') + "\n"
+    + T + T + T + T + T + '<Comment/>' + "\n"
+    + T + T + T + T + '</Properties>' + "\n"
+    + T + T + T + T + '<ChildObjects>' + "\n"
+    + T + T + T + T + T + attr_ref(G["ts_nomen"], "Номенклатура", "CatalogRef.Номенклатура").replace("\n", "\n" + T + T + T) + "\n"
+    + T + T + T + T + T + attr_num(G["ts_qty"], "Количество").replace("\n", "\n" + T + T + T) + "\n"
+    + T + T + T + T + T + attr_num(G["ts_price"], "Цена").replace("\n", "\n" + T + T + T) + "\n"
+    + T + T + T + T + '</ChildObjects>' + "\n"
+    + T + T + T + '</TabularSection>' + "\n"
+    + T + T + '</ChildObjects>' + "\n"
+    + T + '</Document>' + "\n"
+    + '</MetaDataObject>' + "\n")
+
+config = (
+    DECL + NS + "\n"
+    + T + '<Configuration uuid="' + P + '00000000cafe">' + "\n"
+    + T + T + ii("config", "000000000001", "000000000004", "000000000005") + "\n"
+    + T + T + '<Properties>' + "\n"
+    + T + T + T + '<Name>ДемоАгент</Name>' + "\n"
+    + T + T + T + syn('ДемоАгент') + "\n"
+    + T + T + T + '<Comment>Минимальная конфигурация для демо ИИ-агента</Comment>' + "\n"
+    + T + T + T + '<ScriptVariant>Russian</ScriptVariant>' + "\n"
+    + T + T + '</Properties>' + "\n"
+    + T + T + '<ChildObjects>' + "\n"
+    + T + T + T + '<Catalog>' + G["catalog_contragents"] + '</Catalog>' + "\n"
+    + T + T + T + '<Catalog>' + G["catalog_nomen"] + '</Catalog>' + "\n"
+    + T + T + T + '<Document>' + G["doc_realiz"] + '</Document>' + "\n"
+    + T + T + '</ChildObjects>' + "\n"
+    + T + '</Configuration>' + "\n"
+    + '</MetaDataObject>' + "\n")
+
+(ROOT / "Catalogs").mkdir(parents=True, exist_ok=True)
+(ROOT / "Documents").mkdir(parents=True, exist_ok=True)
+(ROOT / "Configuration.xml").write_text(config, encoding="utf-8")
+(ROOT / "Catalogs" / (G["catalog_contragents"] + ".xml")).write_text(catalog_k, encoding="utf-8")
+(ROOT / "Catalogs" / (G["catalog_nomen"] + ".xml")).write_text(catalog_n, encoding="utf-8")
+(ROOT / "Documents" / (G["doc_realiz"] + ".xml")).write_text(doc_r, encoding="utf-8")
+print("written:", sorted(str(p) for p in ROOT.rglob("*.xml")))

@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "ec8e0dfd-446b-4a8d-8065-eb0ba0f8c7cf",
+  "ts": "2026-09-22T23:15:17",
+  "action": "запрос_1с",
+  "profile": "бухгалтер",
+  "risk": "low",
+  "params": {
+    "query": "SELECT Остаток FROM Магазин ПО НОМЕНКЛАТУРЕ WHERE Номенклатура = 'Товар1';"
+  },
+  "confirmed_by": null
+}

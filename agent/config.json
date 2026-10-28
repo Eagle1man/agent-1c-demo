@@ -1,0 +1,9 @@
+{
+  "exchange_path": "..\\exchange",
+  "user": "Иванов И.И. (демо)",
+  "profile": "бухгалтер",
+  "mode": "auto",
+  "keep_history": false,
+  "model": "qwen2.5:1.5b",
+  "timeout_sec": 15
+}

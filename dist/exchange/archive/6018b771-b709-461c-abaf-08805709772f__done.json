@@ -1,0 +1,25 @@
+{
+  "protocol": "1.0",
+  "id": "6018b771-b709-461c-abaf-08805709772f",
+  "ts": "2026-09-22T23:41:48",
+  "action": "создать_документ",
+  "profile": "бухгалтер",
+  "risk": "high",
+  "params": {
+    "doc_type": "ЗаказПокупателя",
+    "counterparty": "Cont123",
+    "positions": [
+      {
+        "item": "Номенклатура1",
+        "price": 100,
+        "qty": 5
+      },
+      {
+        "item": "Номенклатура2",
+        "price": 200,
+        "qty": 2
+      }
+    ]
+  },
+  "confirmed_by": null
+}

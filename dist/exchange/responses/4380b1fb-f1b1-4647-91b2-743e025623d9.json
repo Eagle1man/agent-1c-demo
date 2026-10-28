@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "4380b1fb-f1b1-4647-91b2-743e025623d9",
+  "ts": "2026-09-22T23:39:55",
+  "status": "error",
+  "result": null,
+  "error": {
+    "code": "invalid_query",
+    "message": "Запрос должен начинаться с ВЫБРАТЬ (только чтение)"
+  },
+  "executed_by": "АгентМост 1.0 (mock)"
+}

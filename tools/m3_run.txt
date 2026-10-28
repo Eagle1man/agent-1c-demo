@@ -1,0 +1,27 @@
+security-yes clicked
+security-yes clicked
+security-yes clicked
+security-yes clicked
+=== WINDOW: ДемоАгент
+   [Window] 1С:Предприятие (учебная версия)
+   [Text] Предупреждение безопасности
+
+Открывается "M3 (Мост агент-1С (протокол v1.0))" из файла "C:\1c_bases\M3.epf".
+
+Рекомендуется обращать внимание на источник, из которого был получен данный файл. Если с и
+   [Button] Да
+   [Button] Нет
+   [Text] Сообщения:
+   [List] Сообщения:
+   [Button] Закрыть
+   [Button] Функции
+   [Button] Оповещения
+   [Button] История
+   [Button] Избранное
+   [Button] Сервис и настройки
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [Text] Сообщения:
+   [Button] Закрыть
+KEPT RUNNING pid=20956

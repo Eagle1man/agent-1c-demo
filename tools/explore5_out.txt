@@ -1,0 +1,81 @@
+edits found: 4
+name typed
+actions btns: 1
+actions clicked
+##### actions-menu
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuItem] Открыть модуль объекта
+   [MenuItem] Открыть основную форму
+   [MenuItem] Открыть
+   [MenuItem] Сравнить, объединить с внешней обработкой, отчетом...
+   [MenuItem] Выгрузить в файлы...
+   [MenuItem] Загрузить из файлов...
+   [MenuItem] Добавить
+   [MenuItem] Справочная информация
+   [MenuItem] Свойства
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [ToolBar] Панель состояния

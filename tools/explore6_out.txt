@@ -1,0 +1,295 @@
+load-menu-items: 1
+load clicked
+##### after-load-click
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [Window] Открытие
+   [ToolBar] Командный модуль
+   [Button] &Справка
+   [CheckBox] Область просмотра
+   [SplitButton] Подробности
+   [Button] Ползунок управления просмотром
+   [Button] Упорядочить
+   [Button] Новая папка
+   [Pane] Узел управления
+   [Tree] Область навигации
+   [ScrollBar] По вертикали
+   [Button] Строка вверх
+   [Button] Прокрутить вверх
+   [Thumb] Положение
+   [Button] Прокрутить вниз
+   [Button] Строка вниз
+   [TreeItem] Рабочий стол
+   [TreeItem] Главная
+   [TreeItem] Галерея
+   [TreeItem] OneDrive - Personal
+   [TreeItem] Видео
+   [TreeItem] Документы
+   [TreeItem] Загрузки
+   [TreeItem] Изображения
+   [TreeItem] Музыка
+   [TreeItem] Рабочий стол
+   [TreeItem] D Diorlov
+   [TreeItem] .anaconda
+   [TreeItem] .aws
+   [TreeItem] .azure
+   [TreeItem] .BigNox
+   [TreeItem] .cache
+   [TreeItem] .cagent
+   [TreeItem] .cline
+   [TreeItem] .config
+   [TreeItem] .continue
+   [TreeItem] .continuum
+   [TreeItem] .copilot
+   [TreeItem] .cursor
+   [TreeItem] .dbus-keyrings
+   [TreeItem] .designer
+   [TreeItem] .docker
+   [TreeItem] .dotnet
+   [TreeItem] .EasyOCR
+   [TreeItem] .ipynb_checkpoints
+   [TreeItem] .ipython
+   [TreeItem] .jupyter
+   [TreeItem] .keras
+   [TreeItem] .kimi-webbridge
+   [TreeItem] .kimi-work
+   [TreeItem] .koda
+   [TreeItem] .lmstudio
+   [TreeItem] .local
+   [TreeItem] .mamba
+   [TreeItem] .matplotlib
+   [TreeItem] .ms-ad
+   [TreeItem] .nuget
+   [TreeItem] .ollama
+   [TreeItem] .promptfoo
+   [TreeItem] .Protege
+   [TreeItem] .qwen
+   [TreeItem] .redhat
+   [TreeItem] .ssh
+   [TreeItem] .templateengine
+   [TreeItem] .VirtualBox
+   [TreeItem] .vscode
+   [TreeItem] .vscode-shared
+   [TreeItem] .vs-kubernetes
+   [TreeItem] dir1
+   [TreeItem] Doctor Web
+   [TreeItem] Documents
+   [TreeItem] fet-results
+   [TreeItem] first-project
+   [TreeItem] local-llm-copilot
+   [TreeItem] mehmat-yufu-website
+   [TreeItem] Microsoft
+   [TreeItem] new-dir
+   [TreeItem] Nox_share
+   [TreeItem] OneDrive
+   [TreeItem] PCManger
+   [TreeItem] Pictures
+   [TreeItem] PycharmProjects
+   [TreeItem] source
+   [TreeItem] Tracing
+   [TreeItem] Untitled Folder
+   [TreeItem] Untitled Folder 1
+   [TreeItem] Untitled Folder 2
+   [TreeItem] Untitled Folder 3
+   [TreeItem] VirtualBox VMs
+   [TreeItem] vmlogs
+   [TreeItem] Видео
+   [TreeItem] Документы
+   [TreeItem] Загрузки
+   [TreeItem] Избранное
+   [TreeItem] Изображения
+   [TreeItem] Контакты
+   [TreeItem] Музыка
+   [TreeItem] Объемные объекты
+   [TreeItem] Поиски
+   [TreeItem] Рабочий стол
+   [TreeItem] Рабочий стол
+   [TreeItem] Сохраненные игры
+   [TreeItem] Ссылки
+   [TreeItem] Этот компьютер
+   [TreeItem] Windows (C:)
+   [TreeItem] Data (D:)
+   [TreeItem] bufer (\\10.19.77.27) (Z:)
+   [TreeItem] Библиотеки
+   [TreeItem] Сеть
+   [TreeItem] Linux
+   [TreeItem] .cursor
+   [TreeItem] AVTOR_FET
+   [TreeItem] playground-series-s6e3
+   [TreeItem] автор прогроамма
+   [TreeItem] арго
+   [TreeItem] АРЕНДА
+   [TreeItem] БИБЛИОТЕКА ИИ
+   [TreeItem] Весь рабочий стол
+   [TreeItem] ГЛУБОКОЕ ОБУЧЕНИЕ СИРИУС
+   [TreeItem] Диплом
+   [TreeItem] документы для договора
+   [TreeItem] Исследовательский проект
+   [TreeItem] ИУБИП
+   [TreeItem] колаб
+   [TreeItem] КОНЦЕПЦИЯ АГЕНТЫ ИУБиП ИИ
+   [TreeItem] ЛАБ 1
+   [TreeItem] Новая папка
+   [TreeItem] Новая папка (2)
+   [TreeItem] ОСИОС
+   [TreeItem] проект mlops odi
+   [TreeItem] ПРОЕКТ РАСПИСАНИЕ
+   [TreeItem] рабочие программы
+   [TreeItem] рабочий стол сентябрь
+   [TreeItem] стол 2026
+   [TreeItem] фффф
+   [TreeItem] яндекс ИИ ВСОШ
+   [Pane] Просмотр папок оболочки
+   [List] Просмотр элементов
+   [ScrollBar] По горизонтали
+   [Button] Колонка влево
+   [Thumb] Положение
+   [Button] Переместить вправо
+   [Button] Колонка вправо
+   [ScrollBar] По вертикали
+   [Button] Строка вверх
+   [Thumb] Положение
+   [Button] Прокрутить вниз
+   [Button] Строка вниз
+   [Header] Заголовок
+   [SplitButton] Имя
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Дата изменения
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Тип
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Размер
+   [Button] Фильтр с раскрывающимся списком
+   [ListItem] AdAstra
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] BeamNG.drive
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] CPY_SAVES
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] Euro Truck Simulator 2
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] First_MasterSCADA_Project
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] GitHub
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] GTA San Andreas User Files
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [ListItem] IISExpress
+   [Edit] Имя
+   [Edit] Дата изменения
+   [Edit] Тип
+   [Edit] Размер
+   [Tree] Элементы управления приложения
+   [Text] Имя файла:
+   [ComboBox] Имя файла:
+   [Edit] Имя файла:
+   [Button] Открыть
+   [ComboBox] Тип файлов:
+   [Text] Тип файлов:
+   [Button] Открыть
+   [Button] Открыть
+   [Button] Отмена
+   [ToolBar] Кнопки навигации
+   [Button] Назад (ALT + СТРЕЛКА ВЛЕВО)
+   [Button] Вперед (ALT + СТРЕЛКА ВПРАВО)
+   [Button] Последние расположения
+   [ToolBar] Верхняя полоса
+   [Button] Вверх до "Рабочий стол" (ALT + СТРЕЛКА ВВЕРХ)
+   [ProgressBar] Загрузка
+   [ToolBar] Адрес: Документы
+   [SplitButton] Все папки
+   [SplitButton] Документы
+   [ToolBar] Адресная строка
+   [Button] Предыдущие расположения
+   [Button] Обновить "Документы" (F5)
+   [Button] Поиск
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Закрыть
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [Button] ВнешняяОбработка1 *
+   [ToolBar] Панель состояния

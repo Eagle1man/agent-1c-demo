@@ -1,0 +1,3 @@
+pid=20776 from m2b_pid.txt
+clicked Да attempt=0
+dialog-still-open=False

@@ -1,0 +1,9 @@
+{
+  "protocol": "1.0",
+  "id": "f1e2d3c4-0005-4a00-9000-000000000005",
+  "ts": "2026-09-22T10:04:02",
+  "status": "ok",
+  "result": {"number": "РН-000123", "date": "2026-09-22", "posted": true},
+  "error": null,
+  "executed_by": "АгентМост 1.0"
+}

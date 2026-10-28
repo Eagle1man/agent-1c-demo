@@ -1,0 +1,387 @@
+forms selected
+add clicked
+main-checkbox-state=1
+wizard done
+##### after-add
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Форматирование
+   [Button] Полужирный
+   [Button] Курсив
+   [Button] Подчеркивание
+   [Button] Рамка
+   [Button] Цвет фона
+   [Button] Цвет текста
+   [Button] Цвет линий
+   [Button] Влево
+   [Button] По центру
+   [Button] Вправо
+   [Button] Выровнять
+   [Button] Прозрачность
+   [Button] Тип шрифта
+   [Button] Размер шрифта
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Форма
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [Tab] Реквизиты
+   [TabItem] Реквизиты
+   [TabItem] Команды
+   [TabItem] Параметры
+   [Button] Добавить реквизит
+   [Button] Добавить колонку реквизита
+   [Button] Изменить
+   [Button] Удалить
+   [Custom] Объект Реквизит
+   [Custom] Использовать
+всегда
+   [Custom] Сохранение
+   [Custom] (ВнешняяОбработка.ВнешняяОбработка1SeedData) Тип
+   [Tab] Элементы
+   [TabItem] Элементы
+   [TabItem] Командный интерфейс
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Проверить
+   [Button] Повернуть экран
+   [Button] Дисплей
+   [Button] Масштаб
+   [Button] Показать ошибки размещения
+   [Custom] Форма Элемент
+   [Custom] Командная панель Элемент
+   [Text] Форма в расширяемой конфигурации изменена. Обновить форму в расширении?
+   [Button] Обновить
+   [Button] Скрыть
+   [Button] Еще
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [ToolBar] Панель состояния
+dump clicked
+##### after-dump-click
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [Window] Сохранение
+   [ToolBar] Командный модуль
+   [Button] &Справка
+   [SplitButton] Подробности
+   [Button] Ползунок управления просмотром
+   [Button] Упорядочить
+   [Button] Новая папка
+   [Pane] Узел управления
+   [Tree] Область навигации
+   [ScrollBar] По вертикали
+   [Button] Строка вверх
+   [Button] Прокрутить вверх
+   [Thumb] Положение
+   [Button] Прокрутить вниз
+   [Button] Строка вниз
+   [TreeItem] Рабочий стол
+   [TreeItem] Главная
+   [TreeItem] Галерея
+   [TreeItem] OneDrive - Personal
+   [TreeItem] Видео
+   [TreeItem] Документы
+   [TreeItem] Загрузки
+   [TreeItem] Изображения
+   [TreeItem] Музыка
+   [TreeItem] MEmu Music
+   [TreeItem] Рабочий стол
+   [TreeItem] D Diorlov
+   [TreeItem] .anaconda
+   [TreeItem] .aws
+   [TreeItem] .azure
+   [TreeItem] .BigNox
+   [TreeItem] .cache
+   [TreeItem] .cagent
+   [TreeItem] .cline
+   [TreeItem] .config
+   [TreeItem] .continue
+   [TreeItem] .continuum
+   [TreeItem] .copilot
+   [TreeItem] .cursor
+   [TreeItem] .dbus-keyrings
+   [TreeItem] .designer
+   [TreeItem] .docker
+   [TreeItem] .dotnet
+   [TreeItem] .EasyOCR
+   [TreeItem] .ipynb_checkpoints
+   [TreeItem] .ipython
+   [TreeItem] .jupyter
+   [TreeItem] .keras
+   [TreeItem] .kimi-webbridge
+   [TreeItem] .kimi-work
+   [TreeItem] .koda
+   [TreeItem] .lmstudio
+   [TreeItem] .local
+   [TreeItem] .mamba
+   [TreeItem] .matplotlib
+   [TreeItem] .ms-ad
+   [TreeItem] .nuget
+   [TreeItem] .ollama
+   [TreeItem] .promptfoo
+   [TreeItem] .Protege
+   [TreeItem] .qwen
+   [TreeItem] .redhat
+   [TreeItem] .ssh
+   [TreeItem] .templateengine
+   [TreeItem] .VirtualBox
+   [TreeItem] .vscode
+   [TreeItem] .vscode-shared
+   [TreeItem] .vs-kubernetes
+   [TreeItem] dir1
+   [TreeItem] Doctor Web
+   [TreeItem] Documents
+   [TreeItem] fet-results
+   [TreeItem] first-project
+   [TreeItem] local-llm-copilot
+   [TreeItem] mehmat-yufu-website
+   [TreeItem] Microsoft
+   [TreeItem] new-dir
+   [TreeItem] Nox_share
+   [TreeItem] OneDrive
+   [TreeItem] PCManger
+   [TreeItem] Pictures
+   [TreeItem] PycharmProjects
+   [TreeItem] source
+   [TreeItem] Tracing
+   [TreeItem] Untitled Folder
+   [TreeItem] Untitled Folder 1
+   [TreeItem] Untitled Folder 2
+   [TreeItem] Untitled Folder 3
+   [TreeItem] VirtualBox VMs
+   [TreeItem] vmlogs
+   [TreeItem] Видео
+   [TreeItem] Документы
+   [TreeItem] Загрузки
+   [TreeItem] Избранное
+   [TreeItem] Изображения
+   [TreeItem] Контакты
+   [TreeItem] Музыка
+   [TreeItem] Объемные объекты
+   [TreeItem] Поиски
+   [TreeItem] Рабочий стол
+   [TreeItem] Рабочий стол
+   [TreeItem] Сохраненные игры
+   [TreeItem] Ссылки
+   [TreeItem] Этот компьютер
+   [TreeItem] Библиотеки
+   [TreeItem] Сеть
+   [TreeItem] .cursor
+   [TreeItem] AVTOR_FET
+   [TreeItem] playground-series-s6e3
+   [TreeItem] автор прогроамма
+   [TreeItem] арго
+   [TreeItem] АРЕНДА
+   [TreeItem] БИБЛИОТЕКА ИИ
+   [TreeItem] Весь рабочий стол
+   [TreeItem] ГЛУБОКОЕ ОБУЧЕНИЕ СИРИУС
+   [TreeItem] Диплом
+   [TreeItem] документы для договора
+   [TreeItem] Исследовательский проект
+   [TreeItem] ИУБИП
+   [TreeItem] колаб
+   [TreeItem] КОНЦЕПЦИЯ АГЕНТЫ ИУБиП ИИ
+   [TreeItem] ЛАБ 1
+   [TreeItem] Новая папка
+   [TreeItem] Новая папка (2)
+   [TreeItem] ОСИОС
+   [TreeItem] проект mlops odi
+   [TreeItem] ПРОЕКТ РАСПИСАНИЕ
+   [TreeItem] рабочие программы
+   [TreeItem] рабочий стол сентябрь
+   [TreeItem] стол 2026
+   [TreeItem] фффф
+   [TreeItem] яндекс ИИ ВСОШ
+   [Pane] Просмотр папок оболочки
+   [List] Просмотр элементов
+   [ScrollBar] По горизонтали
+   [Button] Колонка влево
+   [Thumb] Положение
+   [Button] Переместить вправо
+   [Button] Колонка вправо
+   [Header] Заголовок
+   [SplitButton] Имя
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Дата изменения
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Тип
+   [Button] Фильтр с раскрывающимся списком
+   [SplitButton] Размер
+   [Button] Фильтр с раскрывающимся списком
+   [ListItem] ExternalDataProcessor
+   [Edit] Имя
+   [Edit] Дата изменения
+   ... truncated
+save-typed=[C:\1c_bases\epf_tpl]
+save enter sent
+save-list: []
+save-btns: ['Открыть', 'Открыть', 'Сохранить']
+save confirmed: Сохранить
+##### after-save
+=== WINDOW: Конфигуратор (учебная версия) - ДемоАгент
+   [MenuBar] Система
+   [MenuItem] Система
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Стандартная
+   [Button] Новый...
+   [Button] Открыть...
+   [Button] Сохранить
+   [Button] Вырезать
+   [Button] Копировать
+   [Button] Вставить
+   [Button] Печать...
+   [Button] Предварительный просмотр...
+   [Button] Отменить
+   [Button] Вернуть
+   [Button] Глобальный поиск...
+   [Button] Найти...
+   [Button] Поиск
+   [Button] Найти следующий
+   [Button] Найти предыдущий
+   [Button] Окна…
+   [Button] Синтакс-помощник
+   [Button] Поиск в Синтакс-Помощнике
+   [Button] Шаблоны текста
+   [Button] О программе...
+   [ToolBar] Конфигурация
+   [Button] Открыть конфигурацию
+   [Button] Закрыть конфигурацию
+   [Button] Обновить конфигурацию базы данных
+   [Button] Окно конфигурации
+   [Button] Начать отладку
+   [ToolBar] Главное меню
+   [Button] Файл
+   [Button] Правка
+   [Button] Конфигурация
+   [Button] Отладка
+   [Button] Администрирование
+   [Button] Сервис
+   [Button] Окна
+   [Button] Справка
+   [Tab] Реквизиты
+   [TabItem] Реквизиты
+   [TabItem] Команды
+   [TabItem] Параметры
+   [Button] Добавить реквизит
+   [Button] Добавить колонку реквизита
+   [Button] Изменить
+   [Button] Удалить
+   [Custom] Объект Реквизит
+   [Custom] Использовать
+всегда
+   [Custom] Сохранение
+   [Custom] (ВнешняяОбработка.ВнешняяОбработка1SeedData) Тип
+   [Tab] Элементы
+   [TabItem] Элементы
+   [TabItem] Командный интерфейс
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Проверить
+   [Button] Повернуть экран
+   [Button] Дисплей
+   [Button] Масштаб
+   [Button] Показать ошибки размещения
+   [Custom] Форма Элемент
+   [Custom] Командная панель Элемент
+   [Text] Форма в расширяемой конфигурации изменена. Обновить форму в расширении?
+   [Button] Обновить
+   [Button] Скрыть
+   [Button] Еще
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [Button] Закрыть
+   [Button] Справка
+   [Text] Имя:
+   [Text] Синоним:
+   [Text] Комментарий:
+   [Button] Добавить
+   [Button] Изменить
+   [Button] Удалить
+   [Button] Переместить вверх
+   [Button] Переместить вниз
+   [Button] Сортировать...
+   [ListItem] Реквизиты
+   [ListItem] Табличные части
+   [ListItem] Формы
+   [ListItem] Форма
+   [ListItem] Макеты
+   [Button] Действия
+   [Tab] Основные
+   [TabItem] Основные
+   [TabItem] Дополнительные
+   [Text] Форма обработки:
+   [Button] Свернуть
+   [Button] Развернуть
+   [Button] Закрыть
+   [ToolBar] Панель окон
+   [ToolBar] Панель состояния

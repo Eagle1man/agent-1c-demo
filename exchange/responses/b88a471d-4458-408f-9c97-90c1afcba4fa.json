@@ -1,0 +1,22 @@
+{
+  "protocol": "1.0",
+  "id": "b88a471d-4458-408f-9c97-90c1afcba4fa",
+  "ts": "2026-09-22T23:17:33",
+  "status": "ok",
+  "result": {
+    "columns": [
+      "Параметр",
+      "Значение"
+    ],
+    "rows": [
+      [
+        "ВЫБРАТЬ * ИЗ `STOCK` ГДЕ `IS_ACTIVE` = 1",
+        "демо-ответ mock 1С"
+      ]
+    ],
+    "row_count": 1,
+    "truncated": false
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

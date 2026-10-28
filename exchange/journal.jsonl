@@ -1,0 +1,17 @@
+{"ts": "2026-09-22T22:42:47", "id": "5dd5bc35-1af0-44cc-9772-dbbfcd721cc5", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "проверка связи с 1С"}
+{"ts": "2026-09-22T22:42:56", "id": "2e826f17-ad64-4981-a262-762a80cda2d4", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "error", "summary": "Запрос должен начинаться с ВЫБРАТЬ (только чтение)"}
+{"ts": "2026-09-22T22:46:33", "id": "d9ef6770-2b2f-4cb7-abf9-252665ed617e", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "проверка связи с 1С"}
+{"ts": "2026-09-22T23:13:18", "id": "cd4de3e6-73c9-4034-bbef-848216e8b5f0", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "error", "summary": "Запрос содержит запрещённые операции: «;»"}
+{"ts": "2026-09-22T23:15:17", "id": "ec8e0dfd-446b-4a8d-8065-eb0ba0f8c7cf", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "error", "summary": "Запрос содержит запрещённые операции: «;»"}
+{"ts": "2026-09-22T23:16:07", "id": "27974767-3bd0-4454-b135-fbd79daee6f5", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "error", "summary": "Запрос должен начинаться с ВЫБРАТЬ (только чтение)"}
+{"ts": "2026-09-22T23:17:33", "id": "b88a471d-4458-408f-9c97-90c1afcba4fa", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 1"}
+{"ts": "2026-09-22T23:19:29", "id": "66abfce6-731a-4804-8e5e-1c700805f547", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 3"}
+{"ts": "2026-09-23T00:02:51", "id": "941e666c-9861-436e-ae3d-e78296f46dd2", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 3"}
+{"ts": "2026-09-23T00:02:51", "id": "9a6124fa-3cc5-4938-881a-ffb49f37e2ff", "action": "создать_документ", "risk": "high", "decision": "awaiting_human", "status": "need_confirmation", "summary": "запрошено подтверждение: ООО Ромашка"}
+{"ts": "2026-09-23T00:02:55", "id": "c4a805cb-e08e-4be5-bce7-40b33ea52a02", "action": "создать_документ", "risk": "high", "decision": "awaiting_human", "status": "need_confirmation", "summary": "запрошено подтверждение: ООО Ромашка"}
+{"ts": "2026-09-23T00:02:56", "id": "9ecb40e8-84f9-464e-8d18-42aef4aee28c", "action": "создать_документ", "risk": "high", "decision": "human_confirmed", "status": "ok", "summary": "подтверждено человеком: ООО Ромашка"}
+{"ts": "2026-09-23T10:46:55", "id": "ca547fea-b966-4ad4-bf5c-a1436656b895", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: проверка связи"}
+{"ts": "2026-09-23T10:46:56", "id": "363272c5-9869-4682-9744-5d748cb1c433", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: остатки товаров, строк: 3"}
+{"ts": "2026-09-23T10:46:56", "id": "390fdb05-ac3c-44df-9f29-ca7924b0c93c", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: задолженность контрагентов, строк: 3"}
+{"ts": "2026-09-23T10:46:57", "id": "84286581-039a-4d69-bb10-9b32f809d2b8", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: заказы покупателей, строк: 2"}
+{"ts": "2026-09-23T10:46:57", "id": "f043dc1e-b563-4408-a794-6fd88ecbbff8", "action": "создать_документ", "risk": "high", "decision": "awaiting_human", "status": "need_confirmation", "summary": "сценарий: запрошено подтверждение"}

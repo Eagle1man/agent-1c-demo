@@ -1,0 +1,3 @@
+toolbar: Открыть...
+topwin: Конфигуратор (учебная версия) - ДемоАгент
+!! timeout: open dialog

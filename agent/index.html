@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АгентМост 2.0 — Мультиагентная система 1С</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Загрузка -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <h1>АгентМост 2.0</h1>
+        <p>Инициализация мультиагентной системы...</p>
+    </div>
+
+    <!-- Главный контейнер -->
+    <div id="app" class="hidden">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-icon">🤖</span>
+                    <div>
+                        <h1>АгентМост 2.0</h1>
+                        <p class="subtitle">Мультиагентная система управления 1С</p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="status-indicators">
+                    <div class="status-item">
+                        <span class="status-dot connected"></span>
+                        <span class="status-text">Связь с 1С</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot agents"></span>
+                        <span class="status-text" id="agent-count">7 агентов</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot mock"></span>
+                        <span class="status-text" id="mode-status">Режим: эмулятор</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="mode-toggle">
+                    <button id="toggle-mode" class="btn-toggle">
+                        <span class="toggle-btn"></span>
+                    </button>
+                    <span id="mode-label">🔧 Режим эмуляции</span>
+                </div>
+                <button id="refresh-btn" class="btn-refresh">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6"/>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Панель агентов -->
+            <div class="panel agents-panel">
+                <div class="panel-header">
+                    <h2>👥 Агенты системы</h2>
+                    <span class="panel-badge">7 специализированных агентов</span>
+                </div>
+                <div class="agents-grid" id="agents-grid">
+                    <!-- Агенты загрузятся через JS -->
+                </div>
+            </div>
+
+            <!-- Панель задач -->
+            <div class="panel tasks-panel">
+                <div class="panel-header">
+                    <h2>📋 Очередь задач</h2>
+                    <span class="panel-badge" id="task-count">0 задач</span>
+                </div>
+                <div class="tasks-list" id="tasks-list">
+                    <!-- Задачи загрузятся через JS -->
+                </div>
+            </div>
+
+            <!-- Панель чата -->
+            <div class="panel chat-panel">
+                <div class="panel-header">
+                    <h2>💬 Чат с агентом</h2>
+                    <span class="panel-badge">Ожидание ответа от координатора</span>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-empty">
+                        <p>Напишите сообщение для начала работы с агентной системой.</p>
+                        <small>Примеры: «покажи остатки на складе», «проверь задолженность», «создай накладную»</small>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Сообщение для агента..." autocomplete="off">
+                    <button id="send-btn" class="btn-send">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижняя панель статистики -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-value" id="stat-agents">7</span>
+                <span class="stat-label">Агентов</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-tasks">0</span>
+                <span class="stat-label">Задач</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-errors">0</span>
+                <span class="stat-label">Ошибок</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-beta">0</span>
+                <span class="stat-label">Подтверждений</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <p>АгентМост 2.0 &mdash; мультиагентная система управления 1С:Предприятие</p>
+        <p class="footer-small">Путь к exchange: <span id="exchange-path"></span></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

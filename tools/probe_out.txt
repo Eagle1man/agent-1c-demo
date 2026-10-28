@@ -1,0 +1,3 @@
+CMD: ENTERPRISE /F C:\1c_bases\DemoAgent /Execute C:\1c_bases\SeedData.epf /DisableStartupDialogs
+PID: 11888
+PROCESS EXITED code=1

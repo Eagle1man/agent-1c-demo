@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "cd4de3e6-73c9-4034-bbef-848216e8b5f0",
+  "ts": "2026-09-22T23:13:18",
+  "status": "error",
+  "result": null,
+  "error": {
+    "code": "invalid_query",
+    "message": "Запрос содержит запрещённые операции: «;»"
+  },
+  "executed_by": "АгентМост 1.0 (mock)"
+}
