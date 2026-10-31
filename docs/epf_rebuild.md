@@ -23,7 +23,7 @@ cd D:\agent-1c-demo
   "C:\1c_bases\AgentMost.epf" /Out "D:\agent-1c-demo\build\dump.log"
 
 # 2. Заменить модуль формы исправленным исходником (скрипт добавляет BOM и CRLF)
-py build\put_module.py
+py tools\epf\put_module.py
 
 # 3. Собрать новый .epf
 & $exe DESIGNER /F"C:\1c_bases\DemoAgent" `
@@ -37,7 +37,7 @@ py build\put_module.py
 ## Проверить перед запуском
 
 ```powershell
-py build\check_handlers.py   # обработчики формы объявлены в модуле
+py tools\epf\check_handlers.py   # обработчики формы объявлены в модуле
 py verify_1c.py              # маркеры протокола и экранирование кавычек
 ```
 
