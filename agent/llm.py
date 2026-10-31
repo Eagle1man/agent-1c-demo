@@ -74,9 +74,9 @@ LIVE_DOCS_Q = ("ВЫБРАТЬ ПЕРВЫЕ 50 Номер, Дата ИЗ Док�
 
 
 # ---------------------------------------------------------------- вызовы модели
-def generate(prompt: str, system: str = "") -> str | None:
+def generate(prompt: str, system: str = "", model: str | None = None) -> str | None:
     """Один ответ модели. None — если модель недоступна."""
-    payload = {"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}
+    payload = {"model": model or OLLAMA_MODEL, "prompt": prompt, "stream": False}
     if system:
         payload["system"] = system
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -91,12 +91,12 @@ def generate(prompt: str, system: str = "") -> str | None:
     return text or None
 
 
-def chat(messages: list, system: str = "") -> str | None:
+def chat(messages: list, system: str = "", model: str | None = None) -> str | None:
     """Ответ модели в режиме диалога. None — если модель недоступна."""
     full = list(messages)
     if system:
         full = [{"role": "system", "content": system}] + full
-    payload = {"model": OLLAMA_MODEL, "messages": full, "stream": False}
+    payload = {"model": model or OLLAMA_MODEL, "messages": full, "stream": False}
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         OLLAMA_CHAT_URL, data=body, headers={"Content-Type": "application/json"})

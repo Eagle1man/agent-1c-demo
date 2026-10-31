@@ -5,6 +5,13 @@
   "mode": "auto",
   "keep_history": false,
   "model": "vikhr-qd-a:latest",
+  "model_roles": {
+    "coordinator": "qwen2.5:7b-instruct",
+    "agent": "qwen2.5:7b-instruct",
+    "analyst": "qwen3.8-27b-1C:Q3_K_M",
+    "code_expert": "qwen3.8-27b-1C:Q3_K_M",
+    "scada": "qwen2.5:7b-instruct"
+  },
   "timeout_sec": 15,
   "llm_timeout_sec": 180
 }
