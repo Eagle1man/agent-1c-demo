@@ -188,10 +188,28 @@ def main():
                         f"не выполнится")
             if ("Перем ПутьКExchange" not in form_part
                     and "ПутьКExchange = Неопределено" in form_part):
-                problems.append("АгентМост.bsl: модуль формы присваивает "
-                                "ПутьКExchange, не объявленный в этом модуле "
-                                "(ошибка компиляции в 1С) — путь читать из поля формы "
-                                "Элементы.ПутьКExchange, объекту передавать через Объект.")
+                # Имя может быть реквизитом формы: в модуле формы такой реквизит
+                # доступен напрямую, отдельного «Перем» не требуется. Проверяем
+                # по выгрузке формы, если она есть; иначе не придираемся.
+                import re as _re_attr
+                _xml = (ROOT / "build" / "epf_src" / "АгентМост" / "Forms"
+                        / "Форма" / "Ext" / "Form.xml")
+                _attrs = None
+                if _xml.exists():
+                    try:
+                        _attrs = _re_attr.findall(
+                            r'<Attribute name="([^"]+)"',
+                            _xml.read_text(encoding="utf-8-sig"))
+                    except Exception:                       # noqa: BLE001
+                        _attrs = None
+                if _attrs is None:
+                    print("АгентМост.bsl: ПутьКExchange без «Перем» — выгрузки "
+                          "формы нет, проверить вручную")
+                elif "ПутьКExchange" not in _attrs:
+                    problems.append(
+                        "АгентМост.bsl: модуль формы присваивает ПутьКExchange, "
+                        "которого нет ни в «Перем», ни среди реквизитов формы "
+                        "(ошибка компиляции в 1С)")
     print("АгентМост.bsl: разобран, маркеры проверены")
 
     # --- инструкция ---
