@@ -63,3 +63,11 @@
 {"ts": "2026-10-04T17:03:41", "id": "c2cff274-2bc8-4a73-995d-50944156445f", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "проверка связи"}
 {"ts": "2026-10-04T17:03:44", "id": "d1b76fdf-aabb-44a5-a32e-3b06b854c27f", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 3"}
 {"ts": "2026-10-04T17:03:48", "id": "788ea89b-1917-4915-8295-604ae6d274b1", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 2"}
+{"ts": "2026-10-29T11:22:47", "id": "5517dc3f-e3e3-4aa9-a4b9-741a5a11bbd2", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "проверка связи"}
+{"ts": "2026-10-29T11:22:54", "id": "59d7ff24-f5ea-4c78-937c-b8d2df66f5bb", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 3"}
+{"ts": "2026-10-29T11:22:57", "id": "2e90e1bc-4953-4729-bdb0-f1c2a689d6c7", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "строк: 3"}
+{"ts": "2026-10-29T11:23:19", "id": "4ee3a88b-0d79-4582-95f0-86dce52c45d9", "action": "проверка_связи", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: проверка связи"}
+{"ts": "2026-10-29T11:23:19", "id": "e43a59c5-921c-4d04-9776-8c32716e174f", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: остатки товаров, строк: 3"}
+{"ts": "2026-10-29T11:23:20", "id": "eb9a0c51-1974-469d-9bc0-0909c6f4486b", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: задолженность контрагентов, строк: 3"}
+{"ts": "2026-10-29T11:23:20", "id": "dbea7c6d-b2fd-45e8-b595-065f157fa7c0", "action": "запрос_1с", "risk": "low", "decision": "auto", "status": "ok", "summary": "сценарий: заказы покупателей, строк: 2"}
+{"ts": "2026-10-29T11:23:20", "id": "7da802aa-b343-46e3-8758-fd36a50ec757", "action": "создать_документ", "risk": "high", "decision": "awaiting_human", "status": "need_confirmation", "summary": "сценарий: запрошено подтверждение"}

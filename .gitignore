@@ -1,0 +1,12 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Сборка
+build/
+dist/*.exe
+*.spec
+
+# Архив битых версий (история в git)
+_archive/

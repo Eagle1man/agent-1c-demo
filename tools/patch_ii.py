@@ -2,7 +2,7 @@
 """Патч InternalInfo: расставить разные кандидаты ClassId по контекстам."""
 from pathlib import Path
 
-p = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_cfg_v1.py")
+p = Path(r"D:\agent-1c-demo\tools\gen_cfg_v1.py")
 s = p.read_text(encoding="utf-8")
 
 C1 = "9cd510cd-abfc-11d4-9434-004095e12fc7"

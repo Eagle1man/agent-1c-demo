@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Живой тест окна диалога: запуск 1С, снятие диалога безопасности,
 вставка фразы в поле и чтение истории ответов."""
 import subprocess
@@ -8,7 +8,7 @@ from pathlib import Path
 EXE = r"C:\Program Files (x86)\1cv8t\8.3.27.1508\bin\1cv8t.exe"
 BASE = r"C:\1c_bases\DemoAgentT"
 EPF = r"C:\1c_bases\AgentMost.epf"
-DIR = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo")
+DIR = Path(r"D:\agent-1c-demo")
 OUT = DIR / "chat_live_out.txt"
 PHRASE = "покажи задолженность контрагентов"
 log = []

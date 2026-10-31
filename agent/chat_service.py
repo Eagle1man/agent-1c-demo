@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Служба диалога «окно в 1С <-> нейросеть» (локальный Qwen через Ollama).
+r"""Служба диалога «окно в 1С <-> нейросеть» (локальный Qwen через Ollama).
 
 Учебная 1С не даёт COM/HTTP, поэтому окно в 1С и модель общаются через папки:
     exchange/chat/requests/<id>.json    — фраза, набранная в окне 1С
@@ -29,9 +29,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bridge import Bridge, BridgeTimeout                       # noqa: E402
 from tools import RISK, format_response                        # noqa: E402
 import agent as agent_mod                                      # noqa: E402
-from web_app import (qwen_route, QWEN_MODEL, QWEN_URL,         # noqa: E402
-                     QWEN_TIMEOUT, LIVE_SALES_Q, LIVE_PARTNERS_Q,
-                     LIVE_DOCS_Q)
+from llm import (                                                # noqa: E402
+    OLLAMA_MODEL as QWEN_MODEL,
+    OLLAMA_URL as QWEN_URL,
+    TIMEOUT as QWEN_TIMEOUT,
+    LIVE_SALES_Q, LIVE_PARTNERS_Q, LIVE_DOCS_Q,
+    route as qwen_route,
+    chat as llm_chat,
+)
 from event_logger import EventLogger                           # noqa: E402
 
 CONFIRM_YES = ("да", "д", "yes", "y", "ок", "ok", "подтверждаю", "создавай", "верно")
@@ -184,8 +189,8 @@ class ChatService:
         if intent == "party":
             return ("запрос_1с", {"query": agent_mod.PARTY_Q}), "Qwen"
         if intent == "create":
-            from web_app import (FULL_PARTIES, FULL_ITEMS, _find_name,
-                                 enrich_doc_params)
+            from llm import (FULL_PARTIES, FULL_ITEMS,
+                             find_name as _find_name, enrich_doc_params)
             t = (phrase + " " + str(q.get("counterparty") or "")).lower()
             party = _find_name(t, FULL_PARTIES) or "ООО Ромашка"
             t2 = (phrase + " " + str(q.get("item") or "")).lower()
@@ -211,20 +216,11 @@ class ChatService:
                   "контрагенты) и готовить документы после подтверждения человека. "
                   "Если вопрос про данные предприятия — предложи сформулировать "
                   "задачу, например: «покажи задолженность контрагентов».")
-        payload = json.dumps({"model": QWEN_MODEL, "stream": False,
-                              "messages": [{"role": "system", "content": system},
-                                           {"role": "user", "content": phrase[:500]}]}
-                             ).encode("utf-8")
-        try:
-            req = urllib.request.Request(QWEN_URL, data=payload,
-                                         headers={"Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=QWEN_TIMEOUT) as r:
-                data = json.loads(r.read().decode("utf-8"))
-            text = ((data.get("message") or {}).get("content") or "").strip()
-            return text or "Модель не дала ответа — переформулируйте, пожалуйста."
-        except Exception as exc:
-            return ("Нейросеть недоступна (" + str(exc)[:80] +
-                    "). Проверьте: ollama serve и модель " + QWEN_MODEL + ".")
+        text = llm_chat([{"role": "user", "content": phrase[:500]}], system)
+        if text:
+            return text
+        return ("Нейросеть недоступна. Проверьте: ollama serve и модель "
+                + QWEN_MODEL + ".")
 
     # ------------------------------------------------------------------ обработка
     def process(self, request):
@@ -437,8 +433,8 @@ def main():
     args = ap.parse_args()
 
     # модель можно переключить без правок кода: --model qwen3:4b
-    import web_app as _web
-    _web.QWEN_MODEL = args.model
+    import llm as _llm
+    _llm.OLLAMA_MODEL = args.model
     globals()["QWEN_MODEL"] = args.model
     svc = ChatService(args.exchange, args.profile, use_mock=args.mock)
     try:

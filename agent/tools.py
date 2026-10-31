@@ -11,7 +11,14 @@ RISK = {
     "проверка_связи": "low",
     "запрос_1с": "low",
     "создать_документ": "high",
+    "прочитать_датчики": "low",
+    "отправить_команду": "high",
 }
+
+# ТЗ §11.1: категория C (исполнение команд, меняющих состояние оборудования)
+# на первом этапе отключена для ИИ-агентов. Флаг читается один раз при импорте;
+# включать его может только человек, отдельным решением, после оценки риска.
+SCADA_WRITE_ENABLED = False
 
 CONFIRM_YES = ("да", "д", "yes", "y", "ок", "ok", "согласен", "подтверждаю")
 
@@ -23,10 +30,11 @@ TOOLS = [
     {"type": "function", "function": {
         "name": "запрос_1с",
         "description": "Выполнить SELECT-запрос к 1С и вернуть таблицу. Только чтение данных.",
-        "parameters": {"type": "object", "properties": {
-            "query": {"type": "string",
-                      "description": "Запрос на встроенном языке 1С: начинается с ВЫБРАТЬ, без «;», без параметров «&» и без изменения данных. Добавляй ПЕРВЫЕ 50."}},
-            "required": ["query"]}}},
+        "parameters": {"type": "object",
+                       "properties": {
+                           "query": {"type": "string",
+                                     "description": "Запрос на встроенном языке 1С: начинается с ВЫБРАТЬ, без «;», без параметров «&» и без изменения данных. Добавляй ПЕРВЫЕ 50."}},
+                       "required": ["query"]}}},
     {"type": "function", "function": {
         "name": "создать_документ",
         "description": "Создать и провести документ в 1С. ВЫСОКИЙ РИСК: потребуется подтверждение человека в консоли.",
@@ -42,6 +50,13 @@ TOOLS = [
                 },
                 "required": ["item", "qty", "price"]}}},
             "required": ["counterparty", "positions"]}}},
+    {"type": "function", "function": {
+        "name": "прочитать_датчики",
+        "description": "Прочитать текущие значения датчиков SCADA (температура, давление, уровень и т.д.). Только чтение.",
+        "parameters": {"type": "object", "properties": {}, "required": []}}},
+    # Категория C (ТЗ §11.1) сознательно отсутствует в списке инструментов:
+    # модель не должна даже видеть возможность отправки команд оборудованию.
+    # Код исполнения сохранён ниже за флагом SCADA_WRITE_ENABLED.
 ]
 
 def _echo_block(echo):
@@ -123,6 +138,64 @@ def execute_tool(bridge, name, arguments, profile, input_func=input, print_func=
             bridge.journal(name, risk, "auto", resp.get("status"),
                            (resp.get("error") or {}).get("message", ""),
                            resp.get("id"))
+        return json.dumps(resp, ensure_ascii=False)
+
+    # ----------------------------- SCADA инструменты -----------------------------
+    if name == "прочитать_датчики":
+        # SCADA-агент читает датчики напрямую через мост
+        from scada_bridge import ScadaBridge
+        scada = ScadaBridge("scada_config.json", bridge.root)
+        sensors = scada.read_sensors()
+        scada.log_event("прочитать_датчики", "low", "auto", "ok",
+                        f"прочитано датчиков: {len(sensors)}")
+        return json.dumps({"status": "ok", "result": {"sensors": sensors, "count": len(sensors)}},
+                          ensure_ascii=False)
+
+    if name == "отправить_команду":
+        # ТЗ §11.1 и §23: категория C отключена для ИИ-агентов на первом этапе.
+        # Отказ явный: агент и журнал видят причину, а не «команда не прошла».
+        if not SCADA_WRITE_ENABLED:
+            bridge.journal(name, risk, "policy_denied", "forbidden",
+                           "категория C отключена: SCADA_WRITE_ENABLED=false")
+            return json.dumps({
+                "status": "forbidden",
+                "error": {
+                    "code": "policy_denied",
+                    "message": ("Отправка команд оборудованию отключена для ИИ-агентов "
+                                "(ТЗ §11.1). Включение — отдельное решение с оценкой риска."),
+                },
+            }, ensure_ascii=False)
+
+        tag = arguments.get("tag", "")
+        value = arguments.get("value", 0)
+        cmd_type = arguments.get("type", "set_value")
+        if risk == "high":
+            print_func("\n" + "=" * 56)
+            print_func("КОМАНДА SCADA — ВЫСОКИЙ РИСК")
+            print_func("=" * 56)
+            print_func(f"  Тег:   {tag}")
+            print_func(f"  Значение: {value}")
+            print_func(f"  Тип:    {cmd_type}")
+            print_func("=" * 56)
+            answer = input_func("Подтвердить команду (да/нет): ").strip().lower()
+            if answer not in CONFIRM_YES:
+                bridge.journal(name, risk, "human_rejected", "cancelled",
+                               f"команда SCADA {tag}={value} отклонена")
+                return json.dumps({"status": "cancelled",
+                                   "note": "Команда SCADA отменена человеком."},
+                                  ensure_ascii=False)
+            confirmed_by = bridge.confirmed_by()
+        else:
+            confirmed_by = None
+
+        from scada_bridge import ScadaBridge
+        scada = ScadaBridge("scada_config.json", bridge.root)
+        resp = scada.send_command(tag, value, cmd_type)
+        if confirmed_by:
+            resp["confirmed_by"] = confirmed_by
+        scada.log_event("отправить_команду", risk, "auto",
+                        resp.get("status", "ok"),
+                        f"команда {tag}={value}")
         return json.dumps(resp, ensure_ascii=False)
 
     err = {"status": "error",

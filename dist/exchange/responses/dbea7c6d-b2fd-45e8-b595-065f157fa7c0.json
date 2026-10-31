@@ -1,0 +1,26 @@
+{
+  "protocol": "1.0",
+  "id": "dbea7c6d-b2fd-45e8-b595-065f157fa7c0",
+  "ts": "2026-10-29T11:23:20",
+  "status": "ok",
+  "result": {
+    "columns": [
+      "Номер",
+      "Дата"
+    ],
+    "rows": [
+      [
+        "ЗП-0001",
+        "2026-09-15"
+      ],
+      [
+        "ЗП-0002",
+        "2026-09-18"
+      ]
+    ],
+    "row_count": 2,
+    "truncated": false
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

@@ -3,7 +3,7 @@
 """Скрипт для исправления search.py"""
 import os
 
-PATH = r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\rag\search.py"
+PATH = r"D:\agent-1c-demo\rag\search.py"
 
 # Создаем исправленную версию файла целиком
 FIXED_CODE = '''#!/usr/bin/env python

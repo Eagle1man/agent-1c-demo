@@ -2,7 +2,7 @@
 """Тест: InternalInfo пустым в КОНЦЕ объекта."""
 from pathlib import Path
 
-p = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_cfg_v1.py")
+p = Path(r"D:\agent-1c-demo\tools\gen_cfg_v1.py")
 s = p.read_text(encoding="utf-8")
 # 1. Убрать все вызовы ii(...) вместе с прилежащими переносами
 import re

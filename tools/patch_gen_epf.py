@@ -1,9 +1,9 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Патч генератора EPF: диалог-код убран (живёт в .bsl), в форму добавлены
 реквизиты История/Статус и многострочное поле истории."""
 from pathlib import Path
 
-P = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_epf_most.py")
+P = Path(r"D:\agent-1c-demo\tools\gen_epf_most.py")
 t = P.read_text(encoding="utf-8-sig")
 if '"История"' in t:
     print("уже пропатчено")

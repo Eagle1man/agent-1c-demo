@@ -72,7 +72,16 @@ class Coordinator(BaseAgent):
         text = goal["text"].lower()
         steps = []
 
-        if any(w in text for w in ("остаток", "склад", "товар")):
+        if any(w in text for w in ("датчик", "температур", "давлен", "уровн",
+                                   "авари", "оборудован", "лини", "станк")):
+            steps.append(("scada", "прочитать_датчики", {}, "low"))
+            self.tasks[gid]["steps"] = steps
+            self.tasks[gid]["status"] = "в работе"
+            for agent_id, action, params, risk in steps:
+                self._assign(agent_id, action, params, risk, gid)
+            return
+
+        if any(w in text for w in ("остат", "склад", "товар")):
             steps.append(("кладовщик", "запрос_1с",
                           {"query": "ВЫБРАТЬ ПЕРВЫЕ 50 Номенклатура, КоличествоОстаток КАК Остаток ИЗ РегистрНакопления.ТоварыНаСкладах.Остатки()"},
                           "low"))
@@ -92,7 +101,7 @@ class Coordinator(BaseAgent):
                 self._assign(agent_id, action, params, risk, gid)
             return
 
-        if any(w in text for w in ("накладн", "создать", "документ", "реализац")):
+        if any(w in text for w in ("накладн", "созда", "документ", "реализац")):
             steps.append(("кладовщик", "запрос_1с",
                           {"query": "ВЫБРАТЬ ПЕРВЫЕ 50 Номенклатура, КоличествоОстаток КАК Остаток ИЗ РегистрНакопления.ТоварыНаСкладах.Остатки()"},
                           "low"))

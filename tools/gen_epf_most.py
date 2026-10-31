@@ -9,7 +9,7 @@ import re
 import uuid as _uuid
 from pathlib import Path
 
-PROJ = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo")
+PROJ = Path(r"D:\agent-1c-demo")
 ROOT = Path(r"C:\1c_bases\epf_most")
 DECL = '<?xml version="1.0" encoding="utf-8"?>\n'
 NS = ('<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" '

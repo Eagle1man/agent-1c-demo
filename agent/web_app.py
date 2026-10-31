@@ -10,6 +10,7 @@ from urllib.parse import urlparse, parse_qs
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bridge import Bridge, BridgeTimeout
 from agent import demo_route, resolve_exchange, _load_config
+from scada_bridge import ScadaBridge
 
 # RAG интеграция
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "rag"))
@@ -27,6 +28,7 @@ AGENTS = [
     {"id": "procurement", "name": "Закупки", "avatar": "📥", "color": "#ef4444", "role": "Заявки поставщикам"},
     {"id": "sales", "name": "Продажи", "avatar": "💰", "color": "#06b6d4", "role": "Заказы клиентов"},
     {"id": "audit", "name": "Аудит", "avatar": "🔍", "color": "#a855f7", "role": "Журнал и контроль"},
+    {"id": "scada", "name": "SCADA-оператор", "avatar": "🏭", "color": "#ef4444", "role": "Управление производством и датчиками"},
 ]
 
 # Демо-данные предприятий
@@ -122,6 +124,43 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/history":
             self._send_json({"history": CHAT_HISTORY[-20:]})
             return
+
+        if path == "/api/scada/sensors":
+            scada = ScadaBridge("scada_config.json", Handler.exchange)
+            sensors = scada.read_sensors()
+            unavailable = [s.get("id") for s in sensors if s.get("status") == "unavailable"]
+            self._send_json({
+                "status": "unavailable" if sensors and len(unavailable) == len(sensors) else "ok",
+                "sensors": sensors,
+                "count": len(sensors),
+                "unavailable": unavailable,
+            })
+            return
+
+        if path == "/api/scada/alarms":
+            scada = ScadaBridge("scada_config.json", Handler.exchange)
+            alarms = scada.get_alarms()
+            self._send_json({
+                "status": "ok" if alarms.available else "unavailable",
+                "alarms": alarms,
+                "count": len(alarms),
+                "error": alarms.error,
+            })
+            return
+
+        if path == "/api/scada/command" and self.command == "POST":
+            # ТЗ §11.1, §23: категория C отключена для ИИ-агентов, и внешний
+            # HTTP-вызов не повод её включать. Команды оборудованию не
+            # принимаются до отдельного решения с оценкой риска.
+            self._send_json({
+                "status": "forbidden",
+                "error": {
+                    "code": "policy_denied",
+                    "message": ("Отправка команд оборудованию отключена (ТЗ §11.1). "
+                                "Включение — отдельное решение с оценкой риска."),
+                },
+            }, code=403)
+            return
         static_map = {"/": "index.html", "/index.html": "index.html", "/style.css": "style.css", "/app.js": "app.js"}
         filename = static_map.get(path)
         if filename is None:
@@ -132,7 +171,10 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         ext = filepath.suffix
-        ctype = {"html": "text/html; charset=utf-8", "css": "text/css; charset=utf-8", "js": "application/javascript; charset=utf-8"}.get(ext, "application/octet-stream")
+        if ext == '.html':
+            ctype = 'text/html; charset=utf-8'
+        else:
+            ctype = {"css": "text/css; charset=utf-8", "js": "application/javascript; charset=utf-8"}.get(ext, "application/octet-stream")
         self._send_file(filepath, ctype)
 
     def do_POST(self):

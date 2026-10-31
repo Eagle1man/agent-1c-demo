@@ -52,5 +52,5 @@ MAIN WINDOW: ДемоАгент
    [Text] Сообщения:
    [Button] Закрыть
 ИТОГ y=140 h=32 val=''
-скриншот: C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\chat_1c_screen.png
+скриншот: D:\agent-1c-demo\chat_1c_screen.png
 1C ОСТАВЛЕН ОТКРЫТЫМ pid=5336

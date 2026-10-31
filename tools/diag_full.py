@@ -2,7 +2,7 @@ import shutil, subprocess, time, re
 from pathlib import Path
 
 EXE = r'C:\Program Files (x86)\1cv8t\8.3.27.1508\bin\1cv8t.exe'
-PROJ = Path(r'C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo')
+PROJ = Path(r'D:\agent-1c-demo')
 bsl = (PROJ / '1c' / 'АгентМост.bsl').read_bytes().decode('utf-8-sig')
 i_form = bsl.index('// === МОДУЛЬ ФОРМЫ ===')
 form_code = bsl[i_form:].strip()

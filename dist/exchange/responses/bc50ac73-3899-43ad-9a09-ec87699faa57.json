@@ -1,0 +1,12 @@
+{
+  "protocol": "1.0",
+  "id": "bc50ac73-3899-43ad-9a09-ec87699faa57",
+  "ts": "2026-10-29T11:22:51",
+  "status": "ok",
+  "result": {
+    "platform": "8.3.27.1508 (mock)",
+    "bsl_version": "1.0"
+  },
+  "error": null,
+  "executed_by": "АгентМост 1.0 (mock)"
+}

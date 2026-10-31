@@ -1,8 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Диагностика живого окна 1С: полное дерево контролов + скриншот окна 1С."""
 from pathlib import Path
 
-OUT = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\diag_1c_out.txt")
+OUT = Path(r"D:\agent-1c-demo\diag_1c_out.txt")
 log = []
 
 
@@ -38,7 +38,7 @@ def main():
         try:
             t = w.window_text() or ""
             if "ДемоАгент" in t or "Предприятие" in t:
-                w.capture_as_image().save(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\diag_1c_screen.png")
+                w.capture_as_image().save(r"D:\agent-1c-demo\diag_1c_screen.png")
                 log.append("скриншот окна %r сохранён" % t[:40])
                 break
         except Exception as exc:

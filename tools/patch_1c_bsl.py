@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Патч 1c/АгентМост.bsl: окно чата с нейросетью прямо в 1С.
 
 Идемпотентно. Директива &НаКлиенте обязательна у каждого объявления
@@ -6,7 +6,7 @@
 """
 from pathlib import Path
 
-P = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\1c\АгентМост.bsl")
+P = Path(r"D:\agent-1c-demo\1c\АгентМост.bsl")
 text = P.read_text(encoding="utf-8-sig")
 if "ПроверитьФразуДиалога" in text:
     print("уже пропатчено")

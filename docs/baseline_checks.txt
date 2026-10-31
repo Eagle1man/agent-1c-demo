@@ -1,0 +1,32 @@
+# Базовый замер после Спринта 0 (фактический вывод)
+Дата: 2026-10-31 20:29
+Корень: D:\agent-1c-demo
+Коммит: 64a48b7
+
+## python
+3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]
+
+## py_compile всех .py (кроме build/dist/_archive/__pycache__)
+файлов: 136, ошибок: 0
+
+## tests/*.py (скриптовый стиль, не pytest)
+--- test_event_logger.py (exit=0)
+  ИТОГ: 13 ok, 0 fail
+  ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ
+--- test_permissions.py (exit=0)
+  ИТОГ: 8 ok, 0 fail
+  ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ
+--- test_problem_registry.py (exit=0)
+  ИТОГ: 29 ok, 0 fail
+  ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ
+--- test_sprint0.py (exit=0)
+  ИТОГ: 27 ok, 0 fail
+  ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ
+
+## agent/test_demo.py
+exit=0
+  ИТОГ: 43 ok, 0 fail
+  ВСЕ ПРОВЕРКИ ПРОЙДЕНЫ
+
+## Импорт всех агентов
+all agents import OK

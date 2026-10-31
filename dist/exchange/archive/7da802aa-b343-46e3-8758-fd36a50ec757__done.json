@@ -1,0 +1,20 @@
+{
+  "protocol": "1.0",
+  "id": "7da802aa-b343-46e3-8758-fd36a50ec757",
+  "ts": "2026-10-29T11:23:20",
+  "action": "создать_документ",
+  "profile": "логист",
+  "risk": "high",
+  "params": {
+    "doc_type": "РеализацияТоваровУслуг",
+    "counterparty": "ООО Ромашка",
+    "positions": [
+      {
+        "item": "Товар А",
+        "qty": 10,
+        "price": 150
+      }
+    ]
+  },
+  "confirmed_by": null
+}

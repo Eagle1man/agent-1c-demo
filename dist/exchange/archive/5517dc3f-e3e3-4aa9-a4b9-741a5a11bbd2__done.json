@@ -1,0 +1,10 @@
+{
+  "protocol": "1.0",
+  "id": "5517dc3f-e3e3-4aa9-a4b9-741a5a11bbd2",
+  "ts": "2026-10-29T11:22:47",
+  "action": "проверка_связи",
+  "profile": "логист",
+  "risk": "low",
+  "params": {},
+  "confirmed_by": null
+}

@@ -1,0 +1,35 @@
+{
+  "scada_url": "http://localhost:5000",
+  "api_key": "",
+  "poll_interval": 2.0,
+  "exchange_path": "../exchange/scada",
+  "integration_1c": true,
+  "sensors": [
+    {
+      "id": "temp_001",
+      "name": "Температура цеха 1",
+      "unit": "°C",
+      "tag": "Channel1.Device1.Tag1",
+      "min": 15.0,
+      "max": 30.0
+    },
+    {
+      "id": "press_001",
+      "name": "Давление магистрали",
+      "unit": "кПа",
+      "tag": "Channel1.Device1.Tag2",
+      "min": 100.0,
+      "max": 600.0
+    },
+    {
+      "id": "level_001",
+      "name": "Уровень резервуара",
+      "unit": "%",
+      "tag": "Channel1.Device1.Tag3",
+      "min": 10.0,
+      "max": 90.0
+    }
+  ],
+  "alarms_enabled": true,
+  "auto_control_enabled": false
+}

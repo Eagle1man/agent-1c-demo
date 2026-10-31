@@ -1,9 +1,9 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Шаг 3: закрыть диалог безопасности Win32-нажатием и прогнать фразу."""
 import time
 from pathlib import Path
 
-OUT = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\chat_1c_out3.txt")
+OUT = Path(r"D:\agent-1c-demo\chat_1c_out3.txt")
 PHRASE = "покажи задолженность контрагентов"
 log = []
 
@@ -115,7 +115,7 @@ def main():
     for c, v, r in ed2:
         log.append("ИТОГ y=%s h=%s val=%r" % (r.top, r.height(), v[:700]))
     try:
-        w.capture_as_image().save(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\chat_1c_screen3.png")
+        w.capture_as_image().save(r"D:\agent-1c-demo\chat_1c_screen3.png")
         log.append("скриншот 3 сохранён")
     except Exception as exc:
         log.append("скриншот: " + str(exc)[:80])

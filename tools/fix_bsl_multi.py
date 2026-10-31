@@ -1,8 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Убрать из .bsl объявление Перем Фраза (конфликт с реквизитом формы)."""
 from pathlib import Path
 
-P = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\1c\АгентМост.bsl")
+P = Path(r"D:\agent-1c-demo\1c\АгентМост.bsl")
 t = P.read_text(encoding="utf-8-sig")
 bad_crlf = "&НаКлиенте\r\nПерем Фраза;\r\n"
 bad_lf = "&НаКлиенте\nПерем Фраза;\n"

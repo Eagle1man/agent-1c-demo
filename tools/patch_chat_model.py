@@ -1,8 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Патч chat_service.py: параметр --model (переключение модели без правок кода)."""
 from pathlib import Path
 
-P = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\agent\chat_service.py")
+P = Path(r"D:\agent-1c-demo\agent\chat_service.py")
 s = P.read_text(encoding="utf-8-sig")
 if '"--model"' in s:
     print("уже пропатчено")

@@ -5,7 +5,7 @@
 
 Эмулятор 1С запущен — демонстрация работает без установленной 1С.
 Режим: демо (без модели)
-Exchange: C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\dist\exchange
+Exchange: D:\agent-1c-demo\dist\exchange
 1С: Связь с 1С есть: платформа 8.3.27.1508 (mock), мост 1.0
 
 бухгалтер>   > инструмент: проверка_связи

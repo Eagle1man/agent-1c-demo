@@ -1,7 +1,7 @@
 # СЖАТЫЙ КОНТЕКСТ ДЛЯ ПЕРЕДАЧИ МОДЕЛИ
 
 ## Проект
-`C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo` — демо ИИ-агента для 1С (учебная 8.3.27.1508). Протокол v1.0: файловый обмен `exchange/commands|responses|archive|log`. Агент работает в 1С, человек подтверждает риск.
+`D:\agent-1c-demo` — демо ИИ-агента для 1С (учебная 8.3.27.1508). Протокол v1.0: файловый обмен `exchange/commands|responses|archive|log`. Агент работает в 1С, человек подтверждает риск.
 
 ## Среда
 - База: `C:\1c_bases\DemoAgentT` (копия DemoAgent, живая для тестов)

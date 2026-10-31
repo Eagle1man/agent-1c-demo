@@ -1,8 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Порядок полей в форме: История (сверху) -> Фраза -> Статус."""
 from pathlib import Path
 
-P = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_epf_most.py")
+P = Path(r"D:\agent-1c-demo\tools\gen_epf_most.py")
 lines = P.read_text(encoding="utf-8-sig").splitlines()
 hist = [l for l in lines if "<InputField name=\"История\"" in l]
 mult = [l for l in lines if "MultiLine>true" in l]

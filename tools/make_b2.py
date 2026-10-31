@@ -4,7 +4,7 @@ import re
 import shutil
 from pathlib import Path
 
-PROJ = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo")
+PROJ = Path(r"D:\agent-1c-demo")
 SRC = Path(r"C:\1c_bases\epf_b1")
 DST = Path(r"C:\1c_bases\epf_b2")
 if DST.exists():

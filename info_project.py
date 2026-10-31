@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-base = r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo"
+base = r"D:\agent-1c-demo"
 
 print("=== Интерфейсный компонент ===")
 for f in ['index.html', 'style.css', 'app.js']:

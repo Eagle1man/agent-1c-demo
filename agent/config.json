@@ -4,6 +4,6 @@
   "profile": "бухгалтер",
   "mode": "auto",
   "keep_history": false,
-  "model": "qwen2.5:1.5b",
+  "model": "vikhr-qd-a:latest",
   "timeout_sec": 15
 }

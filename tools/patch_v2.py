@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-p = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_cfg_v2.py")
+p = Path(r"D:\agent-1c-demo\tools\gen_cfg_v2.py")
 s = p.read_text(encoding="utf-8")
 
 new_sys = ('\nimport re as _re\n'

@@ -6,7 +6,7 @@ from pathlib import Path
 
 EXE = r"C:\Program Files (x86)\1cv8t\8.3.27.1508\bin\1cv8t.exe"
 OUT = Path(__file__).resolve().parent / "most_go.txt"
-EXCHANGE = r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\exchange"
+EXCHANGE = r"D:\agent-1c-demo\exchange"
 
 
 def snap(app, tag, lines, limit=60):

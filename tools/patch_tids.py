@@ -12,7 +12,7 @@ TIDS = ["95c2ef3f-aa79-499d-9a4a-74ef4567fae0", "2a38f156-d8c3-4624-aced-df9108b
         "77873974-80d2-4605-9333-fbc1275ad711", "7cf02857-3e5c-4017-9dc4-cb292c6d440c",
         "a0d9c6b9-d6f5-43d1-a3af-5c1e4bb95491"]
 
-p = Path(r"C:\Users\diorl\.cline\data\workspaces\chat\agent-1c-demo\tools\gen_cfg_v2.py")
+p = Path(r"D:\agent-1c-demo\tools\gen_cfg_v2.py")
 s = p.read_text(encoding="utf-8")
 
 new_fn = '''_TIDS = %s
