@@ -35,7 +35,19 @@ def _load_model() -> str:
         return DEFAULT_MODEL
 
 
+def _load_timeout() -> int:
+    """Таймаут генерации. 60 с мало: крупная модель на CPU отвечает дольше,
+    и ответ молча превращался в «модель недоступна»."""
+    try:
+        cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        return int(cfg.get("llm_timeout_sec") or 180)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        return 180
+
+
 OLLAMA_MODEL = _load_model()
+TIMEOUT = _load_timeout()
+
 
 # ---------------------------------------------------------------- демо-данные
 # Списки нужны только для распознавания названий во фразе; факт наличия

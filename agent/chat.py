@@ -4,16 +4,13 @@
 
 import os
 import sys
-import json
-import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'rag'))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from search import search as rag_search
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "qwen2.5:1.5b"
+from search import search as rag_search, status as rag_status
+from llm import OLLAMA_MODEL, generate
 
 SUGGESTIONS = [
     "Как исправить синтаксическую ошибку в 1С?",
@@ -33,6 +30,8 @@ def show_suggestions():
     print()
 
 def ollama_answer(question, context):
+    """Ответ модели. Возвращает {"text": ..., "error": ...}; отдельно,
+    чтобы отказ модели не выглядел как её ответ."""
     if context:
         prompt = f"""Ты — эксперт по 1С:Предприятие. Отвечай на русском языке, основываясь на предоставленном контексте из базы знаний. Если контекста недостаточно, честно скажи об этом. Не придумывай информацию.
 
@@ -49,15 +48,10 @@ def ollama_answer(question, context):
 
 Ответ:"""
 
-    payload = {"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}
-    data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(OLLAMA_URL, data=data, headers={"Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            return result.get("response", "Нет ответа от модели")
-    except Exception as e:
-        return f"Ошибка Ollama: {e}"
+    text = generate(prompt)
+    if text is None:
+        return {"text": None, "error": f"модель {OLLAMA_MODEL} недоступна (ollama serve)"}
+    return {"text": text, "error": None}
 
 def build_context(hits):
     if not hits:
@@ -78,6 +72,11 @@ def main():
     print("Введите 'help' для подсказок")
     print("-" * 60)
     show_suggestions()
+    st = rag_status()
+    if st["ready"]:
+        print(f"📚 База знаний: {st['documents']} документов ({st['collection']}, {st['model'].split('/')[-1]})")
+    else:
+        print(f"⚠ База знаний недоступна: {st['error']}")
     history = []
     while True:
         try:
@@ -96,11 +95,24 @@ def main():
                     question = SUGGESTIONS[idx - 1]
             print("⏳ Поиск в базе знаний 1С...")
             hits = rag_search(question, top_k=3)
+            if not hits:
+                st = rag_status()
+                if not st["ready"]:
+                    print(f"⚠ База знаний недоступна: {st['error']}")
+                else:
+                    print("ℹ Подходящих документов нет — ответ будет без источников.")
             context = build_context(hits)
             print("⏳ Получение ответа от Ollama...")
-            answer = ollama_answer(question, context)
-            print(f"\n🤖 Ассистент:\n{answer}")
-            history.append({"question": question, "answer": answer, "sources": hits})
+            res = ollama_answer(question, context)
+            if res["error"]:
+                print(f"\n⚠ Ответа нет: {res['error']}. Данные не выдумывались.")
+                continue
+            print(f"\n🤖 Ассистент:\n{res['text']}")
+            if hits:
+                srcs = [str((h.get('metadata') or {}).get('file') or h.get('source'))
+                        for h in hits]
+                print("\n📚 Источники: " + ", ".join(srcs))
+            history.append({"question": question, "answer": res["text"], "sources": hits})
         except KeyboardInterrupt:
             print("\n\n👋 До свидания!")
             break
