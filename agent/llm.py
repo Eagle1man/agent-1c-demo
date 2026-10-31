@@ -45,8 +45,30 @@ def _load_timeout() -> int:
         return 180
 
 
+def _load_max_tokens() -> int:
+    """Ограничение длины ответа. На CPU длина ответа — это время ожидания:
+    без лимита 7B может писать несколько минут."""
+    try:
+        cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        return int(cfg.get("max_tokens") or 320)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        return 320
+
+
+def _load_temperature() -> float:
+    """Температура. Для ответов по фактам нужна низкая: при 0.8 одна и та же
+    модель на одном контексте то отвечает, то говорит «ответа нет»."""
+    try:
+        cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        return float(cfg.get("temperature", 0.2))
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        return 0.2
+
+
 OLLAMA_MODEL = _load_model()
 TIMEOUT = _load_timeout()
+MAX_TOKENS = _load_max_tokens()
+TEMPERATURE = _load_temperature()
 
 
 # ---------------------------------------------------------------- демо-данные
@@ -76,7 +98,8 @@ LIVE_DOCS_Q = ("ВЫБРАТЬ ПЕРВЫЕ 50 Номер, Дата ИЗ Док�
 # ---------------------------------------------------------------- вызовы модели
 def generate(prompt: str, system: str = "", model: str | None = None) -> str | None:
     """Один ответ модели. None — если модель недоступна."""
-    payload = {"model": model or OLLAMA_MODEL, "prompt": prompt, "stream": False}
+    payload = {"model": model or OLLAMA_MODEL, "prompt": prompt, "stream": False,
+               "options": {"num_predict": MAX_TOKENS, "temperature": TEMPERATURE}}
     if system:
         payload["system"] = system
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -96,7 +119,8 @@ def chat(messages: list, system: str = "", model: str | None = None) -> str | No
     full = list(messages)
     if system:
         full = [{"role": "system", "content": system}] + full
-    payload = {"model": model or OLLAMA_MODEL, "messages": full, "stream": False}
+    payload = {"model": model or OLLAMA_MODEL, "messages": full, "stream": False,
+               "options": {"num_predict": MAX_TOKENS, "temperature": TEMPERATURE}}
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         OLLAMA_CHAT_URL, data=body, headers={"Content-Type": "application/json"})
