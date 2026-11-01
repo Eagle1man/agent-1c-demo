@@ -58,6 +58,21 @@ Q_MONTHLY = (f"ВЫБРАТЬ ГОД(Док.Дата) КАК Год, МЕСЯЦ(
 Q_TOP = (f"ВЫБРАТЬ Док.Контрагент КАК Контрагент, "
          f"СУММА(ТЧ.Количество * ТЧ.Цена) КАК Сумма {JOIN} "
          f"СГРУППИРОВАТЬ ПО Док.Контрагент УПОРЯДОЧИТЬ ПО Сумма УБЫВ")
+Q_PERIOD_SUM = (f"ВЫБРАТЬ КОЛИЧЕСТВО(РАЗЛИЧНЫЕ Док.Ссылка) КАК Документов, "
+                f"СУММА(ТЧ.Количество * ТЧ.Цена) КАК Сумма {JOIN} "
+                f"ГДЕ Док.Дата >= ДАТАВРЕМЯ({{y1}},{{m1}},{{d1}}) "
+                f"И Док.Дата <= ДАТАВРЕМЯ({{y2}},{{m2}},{{d2}},23,59,59)")
+Q_PERIOD_TOP = (f"ВЫБРАТЬ ПЕРВЫЕ 10 ТЧ.Номенклатура КАК Позиция, "
+                f"СУММА(ТЧ.Количество) КАК Количество, "
+                f"СУММА(ТЧ.Количество * ТЧ.Цена) КАК Сумма {JOIN} "
+                f"ГДЕ Док.Дата >= ДАТАВРЕМЯ({{y1}},{{m1}},{{d1}}) "
+                f"И Док.Дата <= ДАТАВРЕМЯ({{y2}},{{m2}},{{d2}},23,59,59) "
+                f"СГРУППИРОВАТЬ ПО ТЧ.Номенклатура УПОРЯДОЧИТЬ ПО Сумма УБЫВ")
+Q_PERIOD_DOCS = ('ВЫБРАТЬ ПЕРВЫЕ 50 Номер, Дата, Контрагент '
+                 'ИЗ Документ.РеализацияТоваровУслуг '
+                 'ГДЕ Дата >= ДАТАВРЕМЯ({y1},{m1},{d1}) '
+                 'И Дата <= ДАТАВРЕМЯ({y2},{m2},{d2},23,59,59) '
+                 'УПОРЯДОЧИТЬ ПО Дата УБЫВ')
 Q_HEADER = ('ВЫБРАТЬ ПЕРВЫЕ 1 Номер, Дата, Контрагент, Проведен '
             'ИЗ Документ.РеализацияТоваровУслуг ГДЕ Номер = "{number}"')
 Q_LINES = ('ВЫБРАТЬ Номенклатура, Количество, Цена '
@@ -171,6 +186,65 @@ def search(query):
         return {"error": err, "ts": now_ts()}
     return {"source": "1С", "ts": now_ts(), "query": safe,
             "rows": res.get("rows") or []}
+
+
+def parse_day(value, fallback):
+    """Дата из строки YYYY-MM-DD. Только цифры попадают в текст запроса к 1С."""
+    m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", (value or "").strip())
+    if not m:
+        return fallback
+    y, mo, d = (int(x) for x in m.groups())
+    if 2000 <= y <= 2100 and 1 <= mo <= 12 and 1 <= d <= 31:
+        return (y, mo, d)
+    return fallback
+
+
+def period(date_from, date_to):
+    start = parse_day(date_from, (2026, 1, 1))
+    end = parse_day(date_to, (2026, 9, 30))
+    if start > end:
+        start, end = end, start
+    params = {"y1": start[0], "m1": start[1], "d1": start[2],
+              "y2": end[0], "m2": end[1], "d2": end[2]}
+    summary, err = ask_1c(Q_PERIOD_SUM.format(**params))
+    if err:
+        return {"error": err, "ts": now_ts()}
+    row = (summary.get("rows") or [[0, 0]])[0]
+    positions, err2 = ask_1c(Q_PERIOD_TOP.format(**params))
+    return {
+        "source": "1С", "ts": now_ts(),
+        "period": {"from": "%04d-%02d-%02d" % start, "to": "%04d-%02d-%02d" % end},
+        "documents": int(row[0] or 0),
+        "total": round(float(row[1] or 0), 2),
+        "positions": [{"item": r[0], "qty": r[1], "sum": round(float(r[2] or 0), 2)}
+                      for r in (positions or {}).get("rows") or []],
+        "error": err2,
+    }
+
+
+def export_csv(kind, date_from, date_to):
+    """CSV с BOM и «;» — открывается в Excel без настроек."""
+    start = parse_day(date_from, (2026, 1, 1))
+    end = parse_day(date_to, (2026, 9, 30))
+    params = {"y1": start[0], "m1": start[1], "d1": start[2],
+              "y2": end[0], "m2": end[1], "d2": end[2]}
+    if kind == "positions":
+        query = Q_PERIOD_TOP.format(**params)
+        header = ["Позиция", "Количество", "Сумма"]
+    else:
+        query = Q_PERIOD_DOCS.format(**params)
+        header = ["Номер", "Дата", "Контрагент"]
+    res, err = ask_1c(query)
+    if err:
+        return None, err
+    rows = res.get("rows") or []
+    truncated = bool(res.get("truncated")) or len(rows) >= 50
+    lines = [";".join(header)]
+    for r in rows:
+        lines.append(";".join(str(x).replace(";", ",") for x in r))
+    if truncated:
+        lines.append("# показаны первые 50 строк (ограничение моста 1С)")
+    return "\r\n".join(lines) + "\r\n", None
 
 
 def order(number):
@@ -345,6 +419,19 @@ button.ghost{background:#182635;color:var(--txt);border:1px solid var(--line)}
    <div class="muted" id="chart-note"></div>
   </div>
 
+  <div class="card" style="margin-bottom:16px">
+   <h2>Отчёт за период</h2>
+   <div class="search">
+    <input type="date" id="from" value="2026-01-01" style="max-width:170px">
+    <input type="date" id="to" value="2026-09-30" style="max-width:170px">
+    <button onclick="loadReport()">Показать</button>
+    <button class="ghost" onclick="exportCsv('documents')">CSV документов</button>
+    <button class="ghost" onclick="exportCsv('positions')">CSV позиций</button>
+   </div>
+   <div id="rep-sum" class="muted">выберите период и нажмите «Показать»</div>
+   <table id="rep" style="margin-top:10px"><thead><tr><th>Позиция</th><th class="right">Кол-во</th><th class="right">Сумма, ₽</th></tr></thead><tbody></tbody></table>
+  </div>
+
   <div class="grid2">
    <div class="card">
     <h2>Документы реализации</h2>
@@ -472,6 +559,25 @@ async function refresh(){
     ps.className='err';ps.textContent=pr.error||('режим: '+pr.mode)}
 }
 
+async function loadReport(){
+  const f=document.getElementById('from').value, t=document.getElementById('to').value;
+  const d=await j('/api/report?from='+encodeURIComponent(f)+'&to='+encodeURIComponent(t));
+  const s=document.getElementById('rep-sum');
+  const tb=document.querySelector('#rep tbody'); tb.innerHTML='';
+  if(d.error){s.className='err';s.textContent='1С не ответила: '+d.error;return}
+  s.className='okbox';
+  s.textContent='период '+d.period.from+' — '+d.period.to+' · документов: '+d.documents+
+    ' · сумма: '+fmt(d.total)+' ₽ · источник 1С · '+d.ts;
+  (d.positions||[]).forEach(p=>{const tr=document.createElement('tr');
+    [p.item,p.qty,fmt(p.sum)].forEach((v,i)=>{const td=document.createElement('td');
+      td.textContent=v; if(i>0)td.className='right'; tr.appendChild(td)});
+    tb.appendChild(tr)});
+}
+function exportCsv(kind){
+  const f=document.getElementById('from').value, t=document.getElementById('to').value;
+  window.location='/api/export?type='+kind+'&from='+encodeURIComponent(f)+'&to='+encodeURIComponent(t);
+}
+
 async function openCard(num){
   const d=await j('/api/order?number='+encodeURIComponent(num));
   document.getElementById('drawer').classList.add('open');
@@ -512,7 +618,7 @@ async function ask(){
 }
 document.getElementById('phrase').addEventListener('keydown',e=>{if(e.key==='Enter')ask()});
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});
-refresh(); setInterval(refresh,15000);
+refresh(); setInterval(refresh,15000); loadReport();
 window.addEventListener('resize',()=>j('/api/kpi').then(k=>{if(!k.error)drawChart(k.months)}));
 </script></body></html>"""
 
@@ -537,6 +643,22 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
+        if path == "/api/export":
+            kind = (qs.get("type") or ["documents"])[0]
+            text, err = export_csv(kind, (qs.get("from") or [""])[0],
+                                   (qs.get("to") or [""])[0])
+            if err:
+                self._json({"error": err}, 500)
+                return
+            body = ("\ufeff" + text).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/csv; charset=utf-8")
+            self.send_header("Content-Disposition",
+                             f'attachment; filename="{kind}.csv"')
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         routes = {
             "/api/health": health,
             "/api/panel": panel,
@@ -545,6 +667,8 @@ class Handler(BaseHTTPRequestHandler):
             "/api/production": production,
             "/api/order": lambda: order((qs.get("number") or [""])[0]),
             "/api/search": lambda: search((qs.get("q") or [""])[0]),
+            "/api/report": lambda: period((qs.get("from") or [""])[0],
+                                          (qs.get("to") or [""])[0]),
         }
         fn = routes.get(path)
         if not fn:

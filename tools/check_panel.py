@@ -34,6 +34,11 @@ def post(path, payload):
         return json.loads(r.read())
 
 
+def get_text(path):
+    with urllib.request.urlopen(BASE + path, timeout=180) as r:
+        return r.read().decode("utf-8-sig")
+
+
 def main():
     health = get("/api/health")
     check("мост отвечает", health.get("status") == "ok", str(health))
@@ -72,6 +77,15 @@ def main():
     by_num = get("/api/search?q=000000385")
     check("поиск по номеру документа работает",
           len(by_num.get("rows") or []) == 1, str(by_num)[:150])
+
+    rep = get("/api/report?from=2026-01-01&to=2026-09-30")
+    check("отчёт за период считается",
+          (rep.get("documents") or 0) > 0 and (rep.get("total") or 0) > 0,
+          str(rep)[:150])
+    check("в отчёте есть топ позиций", len(rep.get("positions") or []) > 0)
+    csv_text = get_text("/api/export?type=positions&from=2026-01-01&to=2026-09-30")
+    check("CSV позиций отдаётся", csv_text.startswith("Позиция;"),
+          csv_text[:80])
 
     card = get("/api/order?number=000000001")
     check("карточка документа открывается", not card.get("error"), str(card)[:200])
