@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Единая панель предприятия — демонстрация</title>
+<style>
+:root{--bg:#0f1720;--panel:#17222e;--panel2:#1d2b39;--line:#27374a;--txt:#e8eef4;--muted:#93a4b5;--accent:#3ea6ff;--ok:#33c47a;--bad:#e05c5c;--warn:#e0b34d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 "Segoe UI",system-ui,sans-serif}
+header{display:flex;align-items:center;gap:16px;padding:14px 22px;background:linear-gradient(90deg,#14202b,#1a2c3d);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header h1{font-size:17px;margin:0;font-weight:600}
+header .sub{color:var(--muted);font-size:12px}
+.chips{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:5px 10px;border-radius:20px;font-size:12px;border:1px solid var(--line);background:#101a24}
+.chip.ok{border-color:#2b6b4a;color:#b9f0d1;background:#12251c}
+.chip.warn{border-color:#6b5a2b;color:#f0e2b9;background:#241f12}
+.chip.bad{border-color:#6b2b2b;color:#f3c3c3;background:#241414}
+main{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:16px 22px 28px;max-width:1680px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h2{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .v{font-size:24px;font-weight:650}
+.kpi .l{color:var(--muted);font-size:12px;margin-top:2px}
+.kpi .m{color:#6f8296;font-size:11px;margin-top:6px}
+.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-weight:500;text-align:left;padding:6px;border-bottom:1px solid var(--line);font-size:12px}
+td{padding:7px 6px;border-bottom:1px solid #1e2b3a}
+tr.row:hover td{background:#1b2836;cursor:pointer}
+.right{text-align:right}
+.search{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+input{flex:1;background:#101a24;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 11px;font-size:13px;min-width:140px}
+input:focus{outline:none;border-color:var(--accent)}
+button{background:var(--accent);color:#06121c;border:0;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer}
+button.ghost{background:#182635;color:var(--txt);border:1px solid var(--line)}
+.err{background:#241414;border-left:3px solid var(--bad);padding:9px 11px;border-radius:8px;font-size:13px;color:#f3c3c3}
+.okbox{background:#12251c;border-left:3px solid var(--ok);padding:9px 11px;border-radius:8px;font-size:13px;color:#b9f0d1}
+.warnbox{background:#241f12;border-left:3px solid var(--warn);padding:9px 11px;border-radius:8px;font-size:13px;color:#f0e2b9}
+.muted{color:var(--muted);font-size:12px}
+#log{height:300px;overflow:auto;padding-right:4px;margin-bottom:8px}
+.msg{background:#132030;border:1px solid #1e2b3a;border-radius:10px;padding:9px 11px;margin-bottom:8px;font-size:13px}
+.msg.me{background:#16283a;border-color:#24415c}
+.src{color:#6f8296;font-size:11px;margin-top:5px}
+.bar{height:26px;background:#132030;border-radius:6px;overflow:hidden;margin:3px 0 9px}
+.bar>div{height:100%;background:linear-gradient(90deg,#2b6fb0,#3ea6ff)}
+.drawer{position:fixed;inset:0;background:rgba(6,10,14,.6);display:none;align-items:center;justify-content:center;z-index:20}
+.drawer.open{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(760px,94vw);max-height:86vh;overflow:auto;padding:18px}
+.sheet h3{margin:0 0 4px;font-size:16px}
+.sheet .close{float:right;background:#182635;border:1px solid var(--line);color:var(--txt)}
+.total{font-size:16px;margin-top:10px}
+.sensor{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #1e2b3a}
+.sensor b{font-variant-numeric:tabular-nums}
+.alarm{color:#f3c3c3}
+@media(max-width:1100px){main{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div>
+  <h1>Единая панель предприятия</h1>
+  <div class="sub" id="src">загрузка снимка…</div>
+ </div>
+ <div class="chips">
+  <span class="chip warn" id="chip-mode">ДЕМО-СНИМОК</span>
+  <span class="chip ok" id="chip-1c">1С: снимок зафиксирован</span>
+  <span class="chip warn" id="chip-prod" style="cursor:pointer" title="перейти к цеху"
+        onclick="document.getElementById('plant-card').scrollIntoView({behavior:'smooth'})">SCADA: виртуальный стенд</span>
+ </div>
+</header>
+
+<main>
+ <div>
+  <div class="kpis">
+   <div class="kpi"><div class="v" id="k-revenue">—</div><div class="l">выручка, ₽</div><div class="m" id="k-revenue-m">по документам реализации</div></div>
+   <div class="kpi"><div class="v" id="k-docs">—</div><div class="l">документов</div><div class="m">в снимке базы</div></div>
+   <div class="kpi"><div class="v" id="k-cp">—</div><div class="l">контрагентов</div><div class="m">справочник 1С</div></div>
+   <div class="kpi"><div class="v" id="k-avg">—</div><div class="l">средний чек, ₽</div><div class="m">выручка / документы</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+   <h2>Выручка по месяцам</h2>
+   <svg id="chart" width="100%" height="190" preserveAspectRatio="none"></svg>
+   <div class="muted" id="chart-note"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+   <h2>Отчёт за период</h2>
+   <div class="search">
+    <input type="date" id="from" value="2026-01-01" style="max-width:170px">
+    <input type="date" id="to" value="2026-09-30" style="max-width:170px">
+    <button onclick="loadReport()">Показать</button>
+    <button class="ghost" onclick="exportCsv()">CSV позиций</button>
+   </div>
+   <div id="rep-sum" class="muted">выберите период и нажмите «Показать»</div>
+   <table id="rep" style="margin-top:10px"><thead><tr><th>Позиция</th><th class="right">Кол-во</th><th class="right">Сумма, ₽</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="grid2">
+   <div class="card">
+    <h2>Документы реализации</h2>
+    <div class="search">
+     <input id="q" placeholder="номер документа или контрагент">
+     <button onclick="doSearch()">Найти</button>
+     <button class="ghost" onclick="resetDocs()">Сбросить</button>
+    </div>
+    <table id="docs"><thead><tr><th>Номер</th><th>Дата</th><th>Контрагент</th></tr></thead><tbody></tbody></table>
+    <div class="muted" id="docs-note">нажмите на строку — откроется карточка</div>
+   </div>
+   <div class="card">
+    <h2>Топ контрагентов по сумме</h2>
+    <div id="top"></div>
+   </div>
+  </div>
+
+  <div class="card" id="plant-card" style="margin-top:16px">
+   <h2>Виртуальный цех · управление производством</h2>
+   <div class="warnbox" style="margin-bottom:10px">
+    Модель предприятия: линии, заказы, нагрев и аварии считаются прямо в браузере.
+    Команды применяются к модели, не к оборудованию. Заказы взяты из снимка 1С.
+    В рабочей версии вместо модели — OPC UA и подтверждение человека.
+   </div>
+   <div id="plant-sum" class="muted">загрузка цеха…</div>
+   <div class="search" style="margin:8px 0">
+    <button class="ghost" onclick="simSpeed(0)">Пауза</button>
+    <button class="ghost" onclick="simSpeed(1)">1×</button>
+    <button class="ghost" onclick="simSpeed(5)">5×</button>
+    <span class="muted" style="align-self:center">скорость модели</span>
+   </div>
+   <div id="plant-lines" class="kpis" style="grid-template-columns:repeat(4,1fr);margin:12px 0"></div>
+   <div class="grid2">
+    <div>
+     <h2 style="margin-top:4px">Заказы из 1С</h2>
+     <table id="plant-orders"><thead><tr><th>Заказ</th><th>Продукт</th><th class="right">План</th><th class="right">Сделано</th><th>Готовность</th><th>Линия</th><th>Статус</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div>
+     <h2 style="margin-top:4px">Журнал команд</h2>
+     <div id="plant-log" class="muted">команд пока не было</div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div class="card">
+  <h2>Чат с системой (оффлайн)</h2>
+  <div id="log"><div class="msg">Спросите: «сколько контрагентов», «покажи последние документы», «какая выручка», «топ позиций». Отвечаю по снимку базы; в онлайн-версии данные идут из живой 1С, а знания — из RAG.</div></div>
+  <div class="search" style="margin:0">
+   <input id="phrase" placeholder="вопрос…">
+   <button onclick="ask()">Спросить</button>
+  </div>
+ </div>
+</main>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeCard()">
+ <div class="sheet">
+  <button class="close" onclick="closeCard()">Закрыть</button>
+  <h3 id="card-title">Документ</h3>
+  <div class="muted" id="card-head"></div>
+  <table id="card-lines" style="margin-top:10px"><thead><tr><th>Позиция</th><th class="right">Кол-во</th><th class="right">Цена</th><th class="right">Сумма</th></tr></thead><tbody></tbody></table>
+  <div class="total" id="card-total"></div>
+  <div class="muted" id="card-src"></div>
+ </div>
+</div>
+
+<script>
+const fmt = n => new Intl.NumberFormat('ru-RU').format(Math.round(n));
+window.onerror = function(m, src, line){
+  const b=document.createElement('div'); b.className='err'; b.style.margin='10px 22px';
+  b.textContent='Ошибка в демо: '+m+' (строка '+line+')';
+  document.body.prepend(b); return false;
+};
+let SNAP = null;
+
+function byNumber(){const m={};for(const d of SNAP.documents)m[d.number]=d;return m}
+
+function drawChart(){
+  const svg=document.getElementById('chart'), months=SNAP.months; svg.innerHTML='';
+  const W=svg.clientWidth||900,H=190,pad=26;
+  const max=Math.max(...months.map(m=>m.sum))||1, bw=(W-pad*2)/months.length;
+  months.forEach((m,i)=>{
+    const h=(H-pad-16)*m.sum/max, x=pad+i*bw+bw*.15, y=H-pad-h, w=bw*.7;
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);
+    r.setAttribute('rx',3);r.setAttribute('fill','#2f7fbe');
+    const t=document.createElementNS('http://www.w3.org/2000/svg','title');
+    t.textContent=m.label+': '+fmt(m.sum)+' ₽';r.appendChild(t);svg.appendChild(r);
+    if(i%3===0||months.length<=12){
+      const lb=document.createElementNS('http://www.w3.org/2000/svg','text');
+      lb.setAttribute('x',x+w/2);lb.setAttribute('y',H-8);lb.setAttribute('fill','#7f93a6');
+      lb.setAttribute('font-size','10');lb.setAttribute('text-anchor','middle');lb.textContent=m.label;
+      svg.appendChild(lb);
+    }
+  });
+  document.getElementById('chart-note').textContent='месяцев: '+months.length+' · максимум '+fmt(max)+' ₽';
+}
+
+function renderDocs(list){
+  const tb=document.querySelector('#docs tbody'); tb.innerHTML='';
+  list.slice(0,30).forEach(d=>{
+    const tr=document.createElement('tr'); tr.className='row';
+    tr.onclick=()=>openCard(d.number);
+    [d.number,d.date,d.counterparty].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
+    tb.appendChild(tr);
+  });
+}
+
+function renderTop(){
+  const box=document.getElementById('top'); box.innerHTML='';
+  const max=SNAP.top.length?SNAP.top[0].sum:1;
+  SNAP.top.forEach(it=>{
+    const d=document.createElement('div');
+    d.innerHTML='<div class="muted">'+it.name+' · '+fmt(it.sum)+' ₽</div>'+
+      '<div class="bar"><div style="width:'+Math.max(4,it.sum/max*100)+'%"></div></div>';
+    box.appendChild(d);
+  });
+}
+
+function loadReport(){
+  const f=new Date(document.getElementById('from').value||'2026-01-01');
+  const t=new Date(document.getElementById('to').value||'2026-09-30'); t.setHours(23,59,59);
+  const docs=SNAP.documents.filter(d=>{const x=new Date(d.date.replace(' ','T'));return x>=f&&x<=t});
+  const agg={}; let total=0;
+  docs.forEach(d=>{total+=d.total; d.positions.forEach(p=>agg[p.item]=(agg[p.item]||0)+p.amount)});
+  const rows=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  document.getElementById('rep-sum').className='okbox';
+  document.getElementById('rep-sum').textContent='период '+document.getElementById('from').value+' — '+
+    document.getElementById('to').value+' · документов: '+docs.length+' · сумма: '+fmt(total)+' ₽ · снимок '+(SNAP.generated_at||'');
+  const tb=document.querySelector('#rep tbody'); tb.innerHTML='';
+  rows.forEach(([item,sum])=>{const tr=document.createElement('tr');
+    [item,'',fmt(sum)].forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===2)td.className='right';tr.appendChild(td)});
+    tb.appendChild(tr)});
+  loadReport._rows=rows;
+}
+
+function exportCsv(){
+  const rows=loadReport._rows||[];
+  const lines=['Позиция;Сумма'];
+  rows.forEach(([i,s])=>lines.push(i.replace(/;/g,',')+';'+Math.round(s)));
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='positions_demo.csv'; a.click();
+}
+
+function openCard(num){
+  const d=byNumber()[num];
+  const box=document.getElementById('drawer'); box.classList.add('open');
+  document.getElementById('card-title').textContent='Документ № '+d.number;
+  document.getElementById('card-head').textContent=d.date+' · '+d.counterparty;
+  const tb=document.querySelector('#card-lines tbody'); tb.innerHTML='';
+  d.positions.forEach(p=>{const tr=document.createElement('tr');
+    [[p.item,'left'],[p.qty,'right'],[fmt(p.price),'right'],[fmt(p.amount),'right']]
+      .forEach(([v,c])=>{const td=document.createElement('td');td.textContent=v;td.className=c;tr.appendChild(td)});
+    tb.appendChild(tr)});
+  document.getElementById('card-total').textContent='Итого: '+fmt(d.total)+' ₽ · позиций: '+d.positions.length;
+  document.getElementById('card-src').textContent='источник: '+SNAP.source;
+}
+function closeCard(){document.getElementById('drawer').classList.remove('open')}
+
+function doSearch(){
+  const q=document.getElementById('q').value.trim().toLowerCase(); if(!q)return resetDocs();
+  const found=SNAP.documents.filter(d=>d.number.includes(q)||(d.counterparty||'').toLowerCase().includes(q));
+  renderDocs(found);
+  document.getElementById('docs-note').textContent='найдено: '+found.length+' · запрос «'+q+'» (по снимку)';
+}
+function resetDocs(){
+  document.getElementById('q').value='';
+  renderDocs(SNAP.documents);
+  document.getElementById('docs-note').textContent='нажмите на строку — откроется карточка';
+}
+
+function answer(q){
+  const t=q.toLowerCase();
+  if(t.includes('контрагент')) return 'Контрагентов в снимке: '+SNAP.counts.counterparties;
+  if(t.includes('выручк')||t.includes('сумм')) return 'Выручка по документам реализации: '+fmt(SNAP.total)+' ₽ за '+(SNAP.months||[]).length+' месяцев';
+  if(t.includes('позиц')||t.includes('топ')){
+    const agg={};
+    SNAP.documents.forEach(d=>d.positions.forEach(p=>agg[p.item]=(agg[p.item]||0)+p.amount));
+    const top=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,3)
+      .map(([i,s])=>i+' — '+fmt(s)+' ₽').join('; ');
+    return 'Топ позиций по сумме: '+top;
+  }
+  if(t.includes('документ')||t.includes('последн'))
+    return 'Последние документы: '+SNAP.documents.slice(0,5).map(d=>d.date+' '+d.counterparty).join('; ');
+  if(t.includes('сколько'))
+    return 'Документов: '+SNAP.counts.documents+', контрагентов: '+SNAP.counts.counterparties+', позиций: '+SNAP.counts.nomenclature;
+  return 'В оффлайн-демо отвечаю только по снимку базы. В онлайн-версии вопрос уходит в живой мост и RAG.';
+}
+
+function ask(){
+  const el=document.getElementById('phrase'), q=el.value.trim(); if(!q)return;
+  const log=document.getElementById('log');
+  log.insertAdjacentHTML('afterbegin','<div class="msg me">'+q.replace(/</g,'&lt;')+'</div>');
+  el.value='';
+  log.insertAdjacentHTML('afterbegin','<div class="msg">'+answer(q)+
+    '<div class="src">источник: снимок базы · '+SNAP.generated_at+'</div></div>');
+}
+
+/* --- виртуальный цех: модель производства --- */
+const PLANT={
+  simSpeed:1,
+  lines:[
+    {id:'L1',name:'Линия 1 · розлив',product:'Товар А',cap:120,state:'простой',speed:0,temp:40,out:0,order:null,carry:0,alarm:'',manualStop:false},
+    {id:'L2',name:'Линия 2 · упаковка',product:'Товар Б',cap:90,state:'простой',speed:0,temp:40,out:0,order:null,carry:0,alarm:'',manualStop:false},
+    {id:'L3',name:'Линия 3 · сборка',product:'Товар В',cap:60,state:'простой',speed:0,temp:40,out:0,order:null,carry:0,alarm:'',manualStop:false},
+    {id:'L4',name:'Линия 4 · комплектация',product:'Товар Г',cap:45,state:'простой',speed:0,temp:40,out:0,order:null,carry:0,alarm:'',manualStop:false}
+  ],
+  orders:[], log:[]
+};
+function initPlant(snap){
+  const docs=(snap.documents||[]).slice(0,3);
+  docs.forEach((d,i)=>{
+    const plan=Math.max(10,Math.round(d.positions.reduce((s,p)=>s+p.qty,0)));
+    PLANT.orders.push({id:d.number,product:d.positions[0]?d.positions[0].item:'Товар',plan,done:0,line:null,status:'ожидает'});
+  });
+  assignOrders();
+  // автозапуск: цех должен «жить» сразу, без нажатий
+  PLANT.seeds = PLANT.orders.slice(0,3).map(o=>({product:o.product, plan:o.plan}));
+  PLANT.batch = 0;
+  let started=0;
+  PLANT.lines.forEach(l=>{
+    if(started<2 && l.order && l.state==='простой'){ l.state='работа'; l.speed=70; started++;
+      logPlant(l.id,'автозапуск демонстрации (70 %)'); }
+  });
+}
+function logPlant(line,text){
+  PLANT.log.unshift(new Date().toLocaleTimeString('ru-RU')+' · '+line+': '+text);
+  PLANT.log=PLANT.log.slice(0,12);
+}
+function assignOrders(){
+  const free=PLANT.lines.filter(l=>!l.order&&l.state!=='авария');
+  PLANT.orders.filter(o=>o.status==='ожидает').forEach(o=>{
+    if(!free.length)return;
+    let line=free.find(l=>l.product===o.product)||free[0];
+    o.line=line.id; o.status='в работе'; line.order=o.id;
+    logPlant(line.id,'назначен заказ '+o.id+' ('+o.product+' × '+o.plan+')');
+    free.splice(free.indexOf(line),1);
+  });
+}
+function replenish(){
+  if(!PLANT.orders.length) return;
+  if(PLANT.orders.some(o=>o.status!=='готово')) return;
+  if(!PLANT.seeds || !PLANT.seeds.length) return;
+  PLANT.batch=(PLANT.batch||0)+1;
+  PLANT.seeds.slice(0,3).forEach((s,i)=>{
+    const id='demo-'+PLANT.batch+'-'+(i+1);
+    PLANT.orders.push({id:id,product:s.product,plan:s.plan,done:0,line:null,status:'ожидает'});
+    logPlant('—','новая партия демонстрации: '+id+' ('+s.product+' × '+s.plan+')');
+  });
+}
+function plantTick(dt){
+  replenish();
+  PLANT.lines.forEach(l=>{
+    if(l.state==='авария'){ l.speed=0; l.temp=Math.max(40,l.temp-1.5*dt); return; }
+    if(l.state!=='работа'||l.speed<=0){ l.temp=Math.max(40,l.temp-1.5*dt); return; }
+    const load=l.speed/100, pen=Math.max(.35,1-Math.max(0,l.temp-75)/60);
+    l.carry+=l.cap*load*pen*dt/60;
+    const whole=Math.floor(l.carry);
+    if(whole){ l.out+=whole; l.carry-=whole; }
+    l.temp+=(45+55*load-l.temp)*0.05*dt;
+    if(l.temp>=92&&l.state==='работа'){ l.state='авария'; l.alarm='перегрев '+Math.round(l.temp)+' °C'; l.speed=0; logPlant(l.id,'АВАРИЯ: '+l.alarm); }
+    const o=PLANT.orders.find(x=>x.id===l.order);
+    if(o){ o.done=l.out; if(o.done>=o.plan){ o.status='готово'; logPlant(l.id,'заказ '+o.id+' выполнен: '+o.done+' из '+o.plan); l.order=null; l.out=0; l.speed=0; l.state='простой'; } }
+  });
+  assignOrders();
+}
+function autoContinue(){
+  let started=0;
+  PLANT.lines.forEach(l=>{
+    if(started<2 && l.state==='простой' && l.order && !l.manualStop){
+      l.state='работа'; l.speed=70; started++;
+      logPlant(l.id,'продолжение работы (70 %)');
+    }
+  });
+}
+function plantCmd(id,action,value){
+  const l=PLANT.lines.find(x=>x.id===id);
+  if(action==='start'){
+    if(l.state==='авария') return alert('Линия в аварии: сначала сбросьте аварию');
+    if(!l.order) return alert('Нет назначенного заказа');
+    l.state='работа'; l.speed=value||70; l.manualStop=false;
+  } else if(action==='stop'){ l.state='простой'; l.speed=0; l.manualStop=true; }
+  else if(action==='speed'){
+    if(l.state!=='работа') return alert('Линия не работает');
+    l.speed=Math.max(10,Math.min(100,value||50));
+  } else if(action==='reset'){
+    if(l.state!=='авария') return alert('Аварии нет');
+    l.state='простой'; l.alarm=''; l.temp=60; l.manualStop=false;
+  }
+  logPlant(l.id,'команда: '+action+(value?' '+value:'')+' (оператор)');
+  renderPlant();
+}
+function simSpeed(v){ PLANT.simSpeed=v; renderPlant(); }
+function renderPlant(){
+  const working=PLANT.lines.filter(l=>l.state==='работа').length;
+  const alarms=PLANT.lines.filter(l=>l.state==='авария').length;
+  const plan=PLANT.orders.reduce((s,o)=>s+o.plan,0);
+  const done=PLANT.orders.reduce((s,o)=>s+o.done,0);
+  const cur=PLANT.orders.filter(o=>o.status!=='готово');
+  const bplan=cur.reduce((s,o)=>s+o.plan,0), bdone=cur.reduce((s,o)=>s+o.done,0);
+  const bprog=bplan?Math.round(bdone/bplan*100):100;
+  const chip=document.getElementById('chip-prod');
+  if(chip){ chip.className=alarms?'chip bad':'chip ok';
+    chip.textContent='Цех: '+working+'/'+PLANT.lines.length+' линий'+(alarms?' · авария':''); }
+  const sum=document.getElementById('plant-sum');
+  sum.className=alarms?'err':'okbox';
+  sum.textContent='линий работают: '+working+' из '+PLANT.lines.length+' · аварий: '+alarms+
+    ' · партия: '+bprog+'% · выпущено: '+fmt(done)+' ед. из '+fmt(plan)+
+    ' · модель · скорость '+PLANT.simSpeed+'×';
+  const box=document.getElementById('plant-lines'); box.innerHTML='';
+  PLANT.lines.forEach(l=>{
+    const div=document.createElement('div'); div.className='kpi';
+    div.style.borderColor=l.state==='авария'?'#6b2b2b':(l.state==='работа'?'#2b6b4a':'#27374a');
+    div.innerHTML='<div class="v" style="font-size:15px">'+l.name+'</div>'+
+      '<div class="l">'+l.product+' · '+l.state+' · '+l.speed+'%</div>'+
+      '<div class="m">темп. '+l.temp.toFixed(1)+' °C · выпуск '+l.out+'</div>'+
+      (l.alarm?'<div class="err" style="margin-top:6px;font-size:12px">'+l.alarm+'</div>':'')+
+      '<div class="search" style="margin-top:8px">'+
+      '<button class="ghost" onclick="plantCmd(\''+l.id+'\',\'start\',70)">Пуск</button>'+
+      '<button class="ghost" onclick="plantCmd(\''+l.id+'\',\'stop\')">Стоп</button>'+
+      '<button class="ghost" onclick="plantCmd(\''+l.id+'\',\'speed\','+Math.min(100,l.speed+10)+')">+10%</button>'+
+      '<button class="ghost" onclick="plantCmd(\''+l.id+'\',\'reset\')">Сброс</button></div>';
+    box.appendChild(div);
+  });
+  const tb=document.querySelector('#plant-orders tbody'); tb.innerHTML='';
+  PLANT.orders.forEach(o=>{
+    const tr=document.createElement('tr');
+    tr.className='row'; tr.title='открыть документ';
+    tr.onclick=()=>openCard(o.id);
+    [o.id,o.product,o.plan,o.done,Math.round(o.done/o.plan*100)+'%',o.line||'—',o.status]
+      .forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===2||i===3)td.className='right';tr.appendChild(td)});
+    tb.appendChild(tr);
+  });
+  document.getElementById('plant-log').innerHTML=PLANT.log.map(x=>'<div class="muted">'+x+'</div>').join('')||'команд пока не было';
+}
+
+(async function(){
+  try{
+    SNAP=await (await fetch('snapshot.json')).json();
+  }catch(e){
+    document.getElementById('src').textContent='не удалось загрузить snapshot.json: '+e;
+    return;
+  }
+  document.getElementById('src').textContent='источник: '+SNAP.source+' · '+SNAP.generated_at;
+  document.getElementById('chip-1c').textContent='1С: снимок от '+SNAP.generated_at;
+  document.getElementById('k-revenue').textContent=fmt(SNAP.total);
+  document.getElementById('k-revenue-m').textContent='среднее за месяц '+fmt(SNAP.total/(SNAP.months.length||1))+' ₽';
+  document.getElementById('k-docs').textContent=SNAP.counts.documents;
+  document.getElementById('k-cp').textContent=SNAP.counts.counterparties;
+  document.getElementById('k-avg').textContent=fmt(SNAP.total/SNAP.counts.documents);
+  drawChart(); renderTop(); renderDocs(SNAP.documents); loadReport();
+  initPlant(SNAP); renderPlant();
+  setInterval(()=>{ if(PLANT.simSpeed){ plantTick(PLANT.simSpeed); autoContinue(); } renderPlant(); },1000);
+})();
+window.addEventListener('resize',()=>{if(SNAP)drawChart()});
+</script>
+</body>
+</html>
