@@ -7,6 +7,7 @@
 """
 import json
 import sys
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -59,6 +60,18 @@ def main():
     check("производственный блок отвечает", "mode" in prod, str(prod)[:150])
     check("без OPC UA данные не выдумываются",
           prod.get("available") is False and bool(prod.get("error")), str(prod)[:200])
+
+    k = get("/api/kpi")
+    check("график: есть месяцы", len(k.get("months") or []) > 0, str(k)[:150])
+    check("график: сумма больше нуля", (k.get("total") or 0) > 0)
+    top = get("/api/top")
+    check("топ контрагентов заполнен", len(top.get("items") or []) > 0)
+    found = get("/api/search?q=" + urllib.parse.quote("Клевер"))
+    check("поиск по контрагенту работает", len(found.get("rows") or []) > 0,
+          str(found.get("error")))
+    by_num = get("/api/search?q=000000385")
+    check("поиск по номеру документа работает",
+          len(by_num.get("rows") or []) == 1, str(by_num)[:150])
 
     card = get("/api/order?number=000000001")
     check("карточка документа открывается", not card.get("error"), str(card)[:200])

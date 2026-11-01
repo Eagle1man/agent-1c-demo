@@ -58,6 +58,11 @@ class Bridge:
                 except json.JSONDecodeError:
                     time.sleep(0.2)  # дописывается — подождём
                     continue
+                except PermissionError:
+                    # 1С ещё держит файл (или антивирус): файл есть, но читать нельзя.
+                    # Без этого панель падала с 500 при каждом таком совпадении.
+                    time.sleep(0.1)
+                    continue
                 self._log(f"{action} {cid} -> {data.get('status')}")
                 return data
             time.sleep(0.2)
