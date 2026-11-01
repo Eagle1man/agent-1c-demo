@@ -114,29 +114,39 @@ def health():
 
 
 def panel():
-    counts, errors = {}, []
-    for key, query in Q_COUNTS.items():
-        res, err = ask_1c(query)
-        counts[key] = None if err else ((res.get("rows") or [[0]])[0][0])
-        if err:
-            errors.append({"query": key, "error": err})
-    docs, err = ask_1c(Q_LAST_DOCS)
-    if err:
-        errors.append({"query": "docs", "error": err})
-    items, err2 = ask_1c(Q_ITEMS)
-    if err2:
-        errors.append({"query": "items", "error": err2})
-    data = {"source": "1С:Предприятие (живой мост)", "ts": now_ts(),
-            "counts": counts,
-            "documents": (docs or {}).get("rows") or [],
-            "items": [r[0] for r in ((items or {}).get("rows") or [])],
-            "errors": errors}
-    if not errors:
-        CACHE["last_ok"] = (time.time(), data)
-    else:
-        last = CACHE.get("last_ok")
-        data["last_success"] = datetime.fromtimestamp(last[0]).isoformat(timespec="seconds") if last else None
-    return data
+    def build():
+        from concurrent.futures import ThreadPoolExecutor
+        counts, errors = {}, []
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            futures = {key: pool.submit(ask_1c, query) for key, query in Q_COUNTS.items()}
+            f_docs = pool.submit(ask_1c, Q_LAST_DOCS)
+            f_items = pool.submit(ask_1c, Q_ITEMS)
+            for key, fut in futures.items():
+                res, err = fut.result()
+                counts[key] = None if err else ((res.get("rows") or [[0]])[0][0])
+                if err:
+                    errors.append({"query": key, "error": err})
+            docs, err = f_docs.result()
+            if err:
+                errors.append({"query": "docs", "error": err})
+            items, err2 = f_items.result()
+            if err2:
+                errors.append({"query": "items", "error": err2})
+        data = {"source": "1С:Предприятие (живой мост)", "ts": now_ts(),
+                "counts": counts,
+                "documents": (docs or {}).get("rows") or [],
+                "items": [r[0] for r in ((items or {}).get("rows") or [])],
+                "errors": errors}
+        if not errors:
+            CACHE["last_ok"] = (time.time(), data)
+        else:
+            last = CACHE.get("last_ok")
+            data["last_success"] = (datetime.fromtimestamp(last[0])
+                                    .isoformat(timespec="seconds") if last else None)
+        return data
+    # кэш 3 с: страница обновляется каждые 15 с, но переходы по карточкам и
+    # повторные открытия не должны каждый раз ждать 1С
+    return cached("panel", 3, build)
 
 
 def kpi():
@@ -206,11 +216,15 @@ def period(date_from, date_to):
         start, end = end, start
     params = {"y1": start[0], "m1": start[1], "d1": start[2],
               "y2": end[0], "m2": end[1], "d2": end[2]}
-    summary, err = ask_1c(Q_PERIOD_SUM.format(**params))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        f_sum = pool.submit(ask_1c, Q_PERIOD_SUM.format(**params))
+        f_top = pool.submit(ask_1c, Q_PERIOD_TOP.format(**params))
+        summary, err = f_sum.result()
+        positions, err2 = f_top.result()
     if err:
         return {"error": err, "ts": now_ts()}
     row = (summary.get("rows") or [[0, 0]])[0]
-    positions, err2 = ask_1c(Q_PERIOD_TOP.format(**params))
     return {
         "source": "1С", "ts": now_ts(),
         "period": {"from": "%04d-%02d-%02d" % start, "to": "%04d-%02d-%02d" % end},
@@ -692,6 +706,24 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
+def warmup():
+    """Прогрев: модель эмбеддингов и первый обмен с 1С.
+
+    Без этого первый вопрос к RAG на демо занимает ~90 секунд (загрузка модели),
+    а первый запрос к 1С — до 8 секунд.
+    """
+    try:
+        from search import search as rag_search, status
+        status()
+        rag_search("проверка", top_k=1)
+    except Exception:                               # noqa: BLE001
+        pass
+    try:
+        health()
+    except Exception:                               # noqa: BLE001
+        pass
+
+
 def main():
     global EXCHANGE
     ap = argparse.ArgumentParser()
@@ -700,6 +732,8 @@ def main():
     args = ap.parse_args()
     EXCHANGE = Path(args.exchange)
     srv = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
+    import threading
+    threading.Thread(target=warmup, daemon=True).start()
     print(f"панель: http://127.0.0.1:{args.port}  exchange={EXCHANGE}")
     try:
         srv.serve_forever()
