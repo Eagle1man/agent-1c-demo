@@ -55,6 +55,21 @@ def main():
     check("вопрос по знаниям идёт в RAG", rag.get("kind") == "rag", str(rag)[:200])
     check("у RAG-ответа есть источник", "RAG" in (rag.get("source") or ""))
 
+    prod = get("/api/production")
+    check("производственный блок отвечает", "mode" in prod, str(prod)[:150])
+    check("без OPC UA данные не выдумываются",
+          prod.get("available") is False and bool(prod.get("error")), str(prod)[:200])
+
+    card = get("/api/order?number=000000001")
+    check("карточка документа открывается", not card.get("error"), str(card)[:200])
+    check("в карточке есть позиции", len(card.get("positions") or []) > 0)
+    check("у карточки есть источник и время",
+          bool(card.get("source")) and bool(card.get("ts")))
+    check("в карточке посчитана сумма", (card.get("total") or 0) > 0)
+    missing = get("/api/order?number=999999999")
+    check("несуществующий документ — понятная ошибка",
+          "не найден" in (missing.get("error") or ""), str(missing)[:150])
+
     # Честный отказ: смотрим, что панель не выдумывает числа без 1С.
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "agent"))
     import panel_server

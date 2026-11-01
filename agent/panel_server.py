@@ -36,6 +36,7 @@ PROFILE = "бухгалтер"
 
 # Последний удачный снимок панели: показываем его с временем, если 1С недоступна.
 LAST_OK = {"ts": None, "data": None}
+PROD_CACHE = {"ts": 0.0, "data": None}
 
 COUNTS = {
     "counterparties": "ВЫБРАТЬ КОЛИЧЕСТВО(*) КАК Всего ИЗ Справочник.Контрагенты",
@@ -44,7 +45,14 @@ COUNTS = {
 }
 LAST_DOCS = ("ВЫБРАТЬ ПЕРВЫЕ 5 Номер, Дата, Контрагент "
              "ИЗ Документ.РеализацияТоваровУслуг УПОРЯДОЧИТЬ ПО Дата УБЫВ")
-ITEMS = "ВЫБРАТЬ ПЕРВЫЕ 8 Наименование ИЗ Справочник.Номенклатура"
+ITEM_QUERY = "ВЫБРАТЬ ПЕРВЫЕ 8 Наименование ИЗ Справочник.Номенклатура"
+
+ORDER_HEADER = ('ВЫБРАТЬ ПЕРВЫЕ 1 Номер, Дата, Контрагент, Проведен '
+                'ИЗ Документ.РеализацияТоваровУслуг ГДЕ Номер = "{number}"')
+ORDER_LINES = ('ВЫБРАТЬ Номенклатура, Количество, Цена '
+               'ИЗ Документ.РеализацияТоваровУслуг.Товары КАК Товары '
+               'ГДЕ Товары.Ссылка В (ВЫБРАТЬ Ссылка '
+               'ИЗ Документ.РеализацияТоваровУслуг ГДЕ Номер = "{number}")')
 
 
 def now_ts():
@@ -95,7 +103,7 @@ def panel():
     docs, err = ask_1c(LAST_DOCS)
     if err:
         errors.append({"query": "last_docs", "error": err})
-    items, err2 = ask_1c(ITEMS)
+    items, err2 = ask_1c(ITEM_QUERY)
     if err2:
         errors.append({"query": "items", "error": err2})
 
@@ -136,7 +144,7 @@ def ask_phrase(phrase):
             return {"kind": "data", "answer": f"Контрагентов в базе: {total}",
                     "source": "1С", "ts": now_ts()}
         if "номенклатур" in low:
-            res, err = ask_1c(ITEMS)
+            res, err = ask_1c(ITEM_QUERY)
             if err:
                 return {"kind": "data", "answer": f"1С не ответила: {err}",
                         "source": "1С", "ts": now_ts()}
@@ -203,7 +211,19 @@ PAGE = """<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">
   </div>
   <table id="docs"><thead><tr><th>Номер</th><th>Дата</th><th>Контрагент</th></tr></thead><tbody></tbody></table>
   <p class="muted" id="items"></p>
+  <p class="muted">Нажмите на строку — откроется карточка документа.</p>
+  <div id="order" style="display:none;margin-top:10px">
+   <h2 id="order-title"></h2>
+   <div class="muted" id="order-head"></div>
+   <table id="order-lines"><thead><tr><th>Позиция</th><th>Кол-во</th><th>Цена</th><th>Сумма</th></tr></thead><tbody></tbody></table>
+   <p class="muted" id="order-total"></p>
+  </div>
  </section>
+ <section class="card">
+  <h2>Производство · SCADA / OPC UA</h2>
+  <div id="prod-state" class="muted">проверка источника…</div>
+  <table id="prod"><thead><tr><th>Параметр</th><th>Значение</th><th>Ед.</th><th>Статус</th></tr></thead><tbody></tbody></table>
+</section>
  <section class="card">
   <h2>Чат</h2>
   <input id="q" placeholder="например: покажи последние документы">
@@ -226,14 +246,44 @@ async function refresh(){
   document.getElementById('c-nom').textContent=p.counts.nomenclature ?? '—';
   const tb=document.querySelector('#docs tbody'); tb.innerHTML='';
   (p.documents||[]).forEach(r=>{ const tr=document.createElement('tr');
+    tr.style.cursor='pointer'; tr.title='открыть карточку';
+    tr.onclick=()=>loadOrder(r[0]);
     r.forEach(c=>{const td=document.createElement('td'); td.textContent=c; tr.appendChild(td);});
     tb.appendChild(tr); });
   document.getElementById('items').textContent='Номенклатура: '+(p.items||[]).join(', ');
+  const pr=await (await fetch('/api/production')).json();
+  const ps=document.getElementById('prod-state');
+  const tb2=document.querySelector('#prod tbody'); tb2.innerHTML='';
+  if(pr.available){
+    ps.className='ok';
+    ps.textContent='источник: '+pr.source+' · '+pr.ts+' · режим: '+pr.mode;
+    (pr.values||[]).forEach(v=>{ const tr=document.createElement('tr');
+      [v.name, v.value, v.unit, v.alarm||v.quality].forEach(x=>{
+        const td=document.createElement('td'); td.textContent=x; tr.appendChild(td); });
+      tb2.appendChild(tr); });
+  } else {
+    ps.className='err';
+    ps.textContent='производственных данных нет: '+(pr.error||pr.mode);
+  }
   if(p.errors && p.errors.length){
     const box=document.createElement('div'); box.className='err';
     box.textContent='Часть данных не получена: '+p.errors.map(e=>e.query+': '+e.error).join('; ');
     el.parentElement.appendChild(box);
   }
+}
+async function loadOrder(num){
+ const d=await (await fetch('/api/order?number='+encodeURIComponent(num))).json();
+ document.getElementById('order').style.display='block';
+ document.getElementById('order-title').textContent =
+   d.error ? 'Карточка недоступна' : ('Документ № '+d.number);
+ document.getElementById('order-head').textContent = d.error ? d.error :
+   (d.source+' · '+d.ts+' · контрагент: '+d.counterparty+' · '+(d.posted?'проведён':'не проведён'));
+ const tb=document.querySelector('#order-lines tbody'); tb.innerHTML='';
+ (d.positions||[]).forEach(p=>{ const tr=document.createElement('tr');
+   [p.item,p.qty,p.price,p.amount].forEach(v=>{const td=document.createElement('td'); td.textContent=v; tr.appendChild(td);});
+   tb.appendChild(tr); });
+ document.getElementById('order-total').textContent = d.error ? '' :
+   ('Итого: '+d.total+' · позиций: '+(d.positions||[]).length);
 }
 async function ask(){
   const q=document.getElementById('q').value.trim(); if(!q) return;
@@ -249,6 +299,55 @@ async function ask(){
 refresh(); setInterval(refresh, 15000);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
 </script></body></html>"""
+
+
+def production():
+    """Производственные данные: кэш 5 секунд, чтобы не дёргать OPC UA на каждый запрос."""
+    now = time.time()
+    if PROD_CACHE["data"] is not None and now - PROD_CACHE["ts"] < 5:
+        return PROD_CACHE["data"]
+    try:
+        from source_mode import current
+        data = current()
+    except Exception as exc:                        # noqa: BLE001
+        data = {"mode": "unavailable", "available": False,
+                "error": f"адаптер не загрузился: {exc}"}
+    PROD_CACHE["ts"] = now
+    PROD_CACHE["data"] = data
+    return data
+
+
+def order(number):
+    """Карточка документа: шапка + позиции. Номер — только цифры."""
+    digits = "".join(ch for ch in str(number or "") if ch.isdigit())
+    if not digits:
+        return {"error": "номер документа должен содержать цифры", "ts": now_ts()}
+    head, err = ask_1c(ORDER_HEADER.format(number=digits))
+    if err:
+        return {"error": err, "ts": now_ts(), "number": digits}
+    rows = head.get("rows") or []
+    if not rows:
+        return {"error": f"документ {digits} не найден", "ts": now_ts(), "number": digits}
+    lines, err2 = ask_1c(ORDER_LINES.format(number=digits))
+    positions = []
+    total = 0.0
+    for r in (lines or {}).get("rows") or []:
+        item, qty, price = r[0], float(r[1]), float(r[2])
+        amount = qty * price
+        total += amount
+        positions.append({"item": item, "qty": qty, "price": price,
+                          "amount": round(amount, 2)})
+    return {
+        "source": "1С:Предприятие (живой мост)",
+        "ts": now_ts(),
+        "number": rows[0][0],
+        "date": rows[0][1],
+        "counterparty": rows[0][2],
+        "posted": bool(rows[0][3]),
+        "positions": positions,
+        "total": round(total, 2),
+        "error": err2,
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -275,6 +374,13 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/panel":
             self._json(panel())
+            return
+        if path == "/api/order":
+            qs = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            self._json(order((qs.get("number") or [""])[0]))
+            return
+        if path == "/api/production":
+            self._json(production())
             return
         self.send_error(404)
 
